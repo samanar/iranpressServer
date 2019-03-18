@@ -9,7 +9,7 @@ let self = module.exports = {
         let module_id = req.query.module_id;
         ModuleNews.findAll({
             where: {
-                module_id: module_id,
+                moduleId: module_id,
             },
             include: [News],
         }).then(data => {
@@ -69,7 +69,7 @@ let self = module.exports = {
         try {
             let module = await Module.findById(module_id);
             let active_news = await ModuleNews.findAll({
-                where: {status: 1, module_id: module_id},
+                where: {status: 1, moduleId: module_id},
                 order: [['active_since']],
                 include: [News]
             });
@@ -130,9 +130,13 @@ let self = module.exports = {
     addModuleNews: async function (req, res) {
         let module_id = req.body.module_id;
         let news_id = req.body.news_id;
+        News.findByPk(news_id).then(news => {
+            news.status = 3;
+            news.save();
+        });
         try {
-            let count = await ModuleNews.count({where: {module_id: module_id, news_id: news_id,}});
-            let module = await Module.findById(module_id);
+            let count = await ModuleNews.count({where: {moduleId: module_id, newsId: news_id,}});
+            let module = await Module.findByPk(module_id);
             if (count !== 0) {
                 res.send({
                     msg: 'news already exists',
@@ -141,8 +145,8 @@ let self = module.exports = {
                 if (module.automatic) {
                     await self.replaceNews(module.id, module.replaceMode);
                     ModuleNews.create({
-                        module_id: module_id,
-                        news_id: news_id,
+                        moduleId: module_id,
+                        newsId: news_id,
                         active_since: new Date(),
                         status: 1
                     }).then(module_news => {
@@ -157,8 +161,8 @@ let self = module.exports = {
                     });
                 } else {
                     ModuleNews.create({
-                        module_id: module_id,
-                        news_id: news_id,
+                        moduleId: module_id,
+                        newsId: news_id,
                         active_since: null,
                         status: 0
                     }).then(module_news => {
@@ -186,7 +190,7 @@ let self = module.exports = {
         try {
             let [module, moduleNews] = await Promise.all([
                 Module.findByPk(module_id),
-                ModuleNews.findAll({where: {module_id: module_id, status: 1}, include: [News]})
+                ModuleNews.findAll({where: {moduleId: module_id, status: 1}, include: [News]})
             ]);
             res.send({
                 module: module,

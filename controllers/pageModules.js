@@ -2,10 +2,13 @@ const pageModule = require('../database/models/pageModules');
 
 module.exports = {
     getPageModue(req, res) {
-        let page = req.query.page;
+        let type = req.query.type;
+        let designId = req.query.designId;
+
         pageModule.findAll({
             where: {
-                page: page,
+                type: type,
+                designId: designId
             },
             order: ['order']
         }).then(data => {
@@ -20,21 +23,24 @@ module.exports = {
         })
     },
     addPageModule(req, res) {
-        let page = req.body.page;
+        let type = req.body.type;
+        let designId = req.body.designId;
         let module_id = req.body.module_id;
         let order = req.body.order;
         pageModule.count({
             where: {
-                page: page,
-                module_id: module_id,
+                type: type,
+                moduleId: module_id,
+                designId: designId
             }
         }).then(count => {
             if (count != 0) {
                 console.log("repeated");
             } else {
                 pageModule.create({
-                    page: page,
-                    module_id: module_id,
+                    type: type,
+                    designId: designId,
+                    moduleId: module_id,
                     order: order
                 }).then(data => {
                     res.send({
@@ -57,9 +63,7 @@ module.exports = {
     updatePageModuleOrder(req, res) {
         let id = req.body.id;
         let order = req.body.order;
-        console.log("id ==> " + id);
-        console.log("order ==> " + order);
-        pageModule.findById(id)
+        pageModule.findByPk(id)
             .then(result => {
                 result.order = order;
                 result.save()
@@ -98,10 +102,12 @@ module.exports = {
         })
     },
     getPageModuleMaxOrder(req, res) {
-        let page = req.query.page;
+        let type = req.query.type;
+        let designId = req.query.designId;
         pageModule.max('order', {
             where: {
-                page: page
+                type: type,
+                designId: designId
             }
         }).then(max => {
             res.send({

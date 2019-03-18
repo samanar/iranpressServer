@@ -19,6 +19,11 @@ const Module = sequelize.define('modules', {
     maxActives: {
         type: Sequelize.INTEGER, defaultValue: 5
     },
+    newsAutomatic: {
+        // 0 --> manually
+        // 1 --> automatically by category and subcategory
+        type: Sequelize.INTEGER , defaultValue: 0
+    },
     type: {
         // 0 --> for custom modules
         // 1 --> for comments modules
@@ -29,7 +34,7 @@ const Module = sequelize.define('modules', {
     }
 
 
-}, {underscored: true});
+});
 
 module.exports = Module;
 

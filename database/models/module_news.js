@@ -14,7 +14,7 @@ const ModuleNews = sequelize.define('module_news', {
         allowNull: true,
     }
 
-}, {underscored: true});
+});
 
 module.exports = ModuleNews;
 

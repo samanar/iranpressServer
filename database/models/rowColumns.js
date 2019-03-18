@@ -13,4 +13,4 @@ module.exports = sequelize.define('row_columns', {
     column_type: {
         type: Sequelize.INTEGER, defaultValue: 0
     }
-}, {underscored: true, timestamps: false});
+});

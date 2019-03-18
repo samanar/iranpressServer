@@ -10,5 +10,5 @@ module.exports = sequelize.define('column_modules', {
             type: Sequelize.BOOLEAN, defaultValue: true
         },
     },
-    {underscored: true, timestamps: false}
+    { timestamps: false}
 );

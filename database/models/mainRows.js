@@ -28,4 +28,4 @@ module.exports = sequelize.define('main_rows', {
     top: {
         type: Sequelize.INTEGER, defaultValue: 0,
     },
-}, {underscored: true, timestamps: false});
+}, {timestamps: false});

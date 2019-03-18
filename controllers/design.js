@@ -1,23 +1,25 @@
 const Design = require('../database/models/design');
+const pageModule = require('../database/models/pageModules');
+const Module = require('../database/models/modules')
 
 module.exports = {
     getDesign(req, res) {
-        let type = req.query.type;
+        let pageId = req.query.pageId;
         Design.count({
             where: {
-                type: type
+                pageId: pageId
             }
         }).then(count => {
             if (count == 0)
                 Design.create({
-                    type: type
+                    pageId: pageId
                 });
         }).catch(err => {
             console.log(err)
         });
         Design.findOne({
             where: {
-                type: type
+                pageId: pageId
             }
         }).then(result => {
             res.send({
@@ -31,13 +33,13 @@ module.exports = {
         })
     },
     updateDesign(req, res) {
-        let type = req.body.type;
+        let pageId = req.body.pageId;
         let sidebar = req.body.sidebar;
         let sidebar_size = req.body.sidebar_size;
         let direction = req.body.direction;
         Design.findOne({
             where: {
-                type: type,
+                pageId: pageId,
             }
         }).then(design => {
             design.sidebar = sidebar;
@@ -61,23 +63,23 @@ module.exports = {
             })
         });
     },
-    getOrders(req, res) {
-        let type = req.query.type;
-        Design.findOne({
-            where: {
-                type: type,
-            }
-        }).then(result => {
-            console.log(result);
+
+    async getPageModules(req, res) {
+        let designId = req.body.designId;
+        try {
+            let [sidebarModules, mainModules] = await Promise.all([
+                pageModule.findAll({where: {type: 0, designId: designId}, include: [Module], order: ['order']}),
+                pageModule.findAll({where: {type: 1, designId: designId}, include: [Module], order: ['order']}),
+            ]);
             res.send({
-                commentsOrder: result.commentsOrder,
-                newsOrder: result.newsOrder
+                sidebarModules: sidebarModules,
+                mainModules: mainModules,
             })
-        }).catch(err => {
+        } catch (err) {
             console.log(err);
             res.status(500).send({
-                error: 'something went wrong trying to get design from the database'
-            })
-        })
+                error: err,
+            });
+        }
     }
 };

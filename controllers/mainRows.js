@@ -4,6 +4,7 @@ const RowColumns = require('../database/models/rowColumns');
 const columnModules = require('../database/models/columnModules');
 
 module.exports = {
+
     getRows(req, res) {
         MainRows.findAll({
             include: [
@@ -42,15 +43,17 @@ module.exports = {
         let width = req.body.width;
         let top = req.body.top;
         let right = req.body.right;
+        let pageId = req.body.pageId;
         if (type == 0) {
             MainRows.create({
+                pageId: pageId,
                 order: order,
                 title: title,
                 type: type
             }).then(row => {
                 for (let i = 0; i < columnNumber; i++) {
                     RowColumns.create({
-                        main_row_id: row.id,
+                        mainRowId: row.id,
                         size: sizes[i],
                     }).then(data => {
                         if (i == columnNumber - 1) {
@@ -58,6 +61,7 @@ module.exports = {
                         }
                     })
                 }
+
             }).catch(err => {
                 console.log(err);
                 res.status(500).send({
@@ -66,6 +70,7 @@ module.exports = {
             });
         } else {
             MainRows.create({
+                pageId: pageId,
                 order: order,
                 title: title,
                 type: type,
@@ -75,7 +80,7 @@ module.exports = {
                 right: right
             }).then(row => {
                 RowColumns.create({
-                    main_row_id: row.id,
+                    mainRowId: row.id,
                     size: 4,
                 }).then(data => {
                     res.send({
@@ -111,8 +116,8 @@ module.exports = {
         let module_type = req.body.module_type;
         let module = await Module.findByPk(module_id);
         columnModules.create({
-            row_column_id: column_id,
-            module_id: module_id,
+            rowColumnId: column_id,
+            moduleId: module_id,
             module_type: module_type
         }).then(data => {
             columnModules.findByPk(data.id, {include: [Module]})
@@ -133,14 +138,14 @@ module.exports = {
         let row_id = req.query.row_id;
         Promise.all([
             MainRows.destroy({where: {id: row_id}}),
-            RowColumns.findAll({where: {main_row_id: row_id}}).then(columns => {
+            RowColumns.findAll({where: {mainRowId: row_id}}).then(columns => {
                 for (let i = 0; i < columns.length; i++) {
-                    columnModules.destroy({where: {row_column_id: columns[i].id}});
-                    columnModules.destroy({where: {row_column_id: null}});
+                    columnModules.destroy({where: {rowColumnId: columns[i].id}});
+                    columnModules.destroy({where: {rowColumnId: null}});
                     columns[i].destroy()
                 }
             }),
-            RowColumns.destroy({where: {main_row_id: null}})
+            RowColumns.destroy({where: {mainRowId: null}})
         ]).then(() => {
             res.send('done')
         }).catch(er => {
@@ -158,7 +163,7 @@ module.exports = {
                 id: columnModuleId
             }
         }).then(data => {
-            res.send(data)
+            res.send({data: data})
         }).catch(err => {
             console.log(err);
             res.status(500).send({
@@ -250,5 +255,25 @@ module.exports = {
                 error: err
             });
         })
-    }
+    },
+    updateVertical(req, res) {
+        let {row_id, width, height, top, right, title} = req.body;
+        MainRows.findByPk(row_id).then(row => {
+            row.title = title
+            row.width = width;
+            row.height = height;
+            row.top = top;
+            row.right = right;
+            row.save().then(data => {
+                res.send({
+                    row: data
+                });
+            })
+        }).catch(err => {
+            console.log(err);
+            res.status(500).send({
+                error: err
+            });
+        })
+    },
 };

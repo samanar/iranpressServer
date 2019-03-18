@@ -1,7 +1,8 @@
 const sequelize = require('../config');
 const Sequelize = require('sequelize');
 
-module.exports = sequelize.define('site_urssers', {
+module.exports = sequelize.define('siteUsers', {
     id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
-
-}, {underscore: true});
+    username: Sequelize.STRING,
+    password: Sequelize.STRING
+});
