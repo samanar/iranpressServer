@@ -22,7 +22,7 @@ const Module = sequelize.define('modules', {
     newsAutomatic: {
         // 0 --> manually
         // 1 --> automatically by category and subcategory
-        type: Sequelize.INTEGER , defaultValue: 0
+        type: Sequelize.INTEGER, defaultValue: 0
     },
     type: {
         // 0 --> for custom modules
@@ -32,8 +32,6 @@ const Module = sequelize.define('modules', {
         // 4 --> for social module
         type: Sequelize.INTEGER, defaultValue: 0
     }
-
-
 });
 
 module.exports = Module;

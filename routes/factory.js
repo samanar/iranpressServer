@@ -16,6 +16,7 @@ const footerDesign = require('../database/models/footerDeisng');
 const lives = require('../database/models/lives');
 const footerList = require('../database/models/footerLists');
 const role = require('../database/models/roles');
+const siteUser = require('../database/models/siteUsers');
 
 
 router.get('/', async function (req, res) {
@@ -81,6 +82,13 @@ router.get('/', async function (req, res) {
         description: 'just testing here'
     });
 
+    await siteUser.create({
+        username: 'admin',
+        name: 'Saman Ahmadian Rad',
+        password: '$2a$10$ewVGTArHJPEQ.kfhp1vhL.6sebExQTha3g9i6gCh7S.ip611nP/j6',
+        siteRoleId: 1
+    });
+
 
     for (let i = 0; i < 3; i++) {
         footerList.create({
@@ -110,10 +118,10 @@ router.get('/', async function (req, res) {
         type: 3
     });
 
-    await Module.create({
+    let top = await Module.create({
         name: 'Top 10 News',
     });
-    await Module.create({
+    let trending = await Module.create({
         name: 'Trending News',
     });
 
@@ -126,7 +134,7 @@ router.get('/', async function (req, res) {
 
     for (let i = 0; i < 10; i++) {
         await ModuleNews.create({
-            moduleId: 4,
+            moduleId: top.id,
             newsId: i + 1,
             status: 0
         });
@@ -134,7 +142,7 @@ router.get('/', async function (req, res) {
 
     for (let i = 0; i < 10; i++) {
         await ModuleNews.create({
-            moduleId: 5,
+            moduleId: trending.id,
             newsId: i + 1,
             status: 0
         });

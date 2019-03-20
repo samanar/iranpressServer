@@ -4,10 +4,21 @@ let multer = require('multer');
 const path = require("path");
 
 const storage = multer.diskStorage({
-    destination: "./public/uploads/",
+    destination: "./public/uploads/headers/",
     filename: function (req, file, cb) {
         cb(null, 'Image' + Date.now() + path.extname(file.originalname));
     }
+});
+
+const bannerStorage = multer.diskStorage({
+    destination: "./public/uploads/banners/",
+    filename: function (req, file, cb) {
+        cb(null, 'Image' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const bannerUpload = multer({
+    storage: bannerStorage
 });
 const upload = multer({
     storage: storage,
@@ -32,6 +43,7 @@ const footerDesignController = require('../controllers/footerDesign');
 const liveController = require('../controllers/lives');
 const roleController = require('../controllers/roles');
 const siteUserController = require('../controllers/siteUsers');
+const bannerController = require('../controllers/banner');
 
 //root
 router.get('/', mainController.getMain);
@@ -146,5 +158,10 @@ router.post('/siteUser/login', siteUserController.loginUser);
 router.post('/siteUser/logout', siteUserController.logoutUser);
 router.post('/siteUser/checkLogin', siteUserController.checkLogin);
 
+//banners
+router.get('/banners', bannerController.getBanners);
+router.post('/banners', bannerUpload.single('image'), bannerController.addBanner);
+router.post('/banners/update', bannerController.updateBanner);
+router.post('/banners/delete', bannerController.deleteBanner);
 
 module.exports = router;
