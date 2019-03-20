@@ -21,6 +21,8 @@ const lives = require('./models/lives');
 const footerDesign = require('./models/footerDeisng');
 const footerLists = require('./models/footerLists');
 const footerListItems = require('./models/footerListItems');
+const siteUser = require('./models/siteUsers');
+const Role = require('./models/roles');
 
 
 const sequelize = require('./config');
@@ -80,6 +82,10 @@ News.belongsToMany(Category, {through: 'News_Category'});
 Category.belongsToMany(News, {through: 'News_Category'});
 News.belongsToMany(SubCategory, {through: 'News_SubCategory'});
 SubCategory.belongsToMany(News, {through: 'News_SubCategory'});
+
+//user roles
+siteUser.belongsTo(Role);
+Role.hasMany(siteUser);
 
 sequelize
     .authenticate()

@@ -1,10 +1,13 @@
 const siteUser = require('../database/models/siteUsers');
+const Role = require('../database/models/roles');
 let bcrypt = require('bcryptjs');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 
 let self = module.exports = {
     getUsers(req, res) {
-        siteUser.findAll()
+        siteUser.findAll({include: Role})
             .then(data => {
                 res.send({
                     users: data
@@ -30,10 +33,27 @@ let self = module.exports = {
                 reject(err);
             })
         });
-
+    },
+    usernameExistsUpdate(username, id) {
+        return new Promise(function (resolve, reject) {
+            siteUser.count({
+                where: {
+                    username: username,
+                    id: {[Op.ne]: id}
+                }
+            }).then(c => {
+                if (c !== 0) {
+                    resolve(true)
+                } else {
+                    resolve(false)
+                }
+            }).catch(err => {
+                reject(err);
+            })
+        });
     },
     async addUser(req, res) {
-        let {username, password} = req.body;
+        let {username, password, name, role} = req.body;
         let status = await self.usernameExists(username);
         if (status) {
             return res.send({
@@ -51,12 +71,23 @@ let self = module.exports = {
                     } else {
                         siteUser.create({
                             username: username,
-                            password: hash
+                            password: hash,
+                            name: name,
+                            siteRoleId: role
                         }).then(data => {
-                            res.send({
-                                error: 0,
-                                user: data
+                            siteUser.findByPk(data.id, {include: Role})
+                                .then(result => {
+                                    res.send({
+                                        error: 0,
+                                        user: result
+                                    })
+                                }).catch(err => {
+                                console.log(err);
+                                res.status(500).send({
+                                    error: err
+                                });
                             })
+
                         }).catch(err => {
                             console.log(err);
                             res.status(500).send({
@@ -82,8 +113,127 @@ let self = module.exports = {
             });
         })
     },
-    changeRole(req ,res) {
-        let id = req.body.id;
-        // let role = req.body.role;
+    async updateUser(req, res) {
+        let {id, name, username, role} = req.body;
+        let status = await self.usernameExistsUpdate(username, id);
+        if (status) {
+            res.send({
+                error: 1,
+                message: 'username already exists'
+            })
+        } else {
+            siteUser.findByPk(id)
+                .then(user => {
+                    user.name = name;
+                    user.username = username;
+                    user.siteRoleId = role;
+                    user.save()
+                        .then(data => {
+                            siteUser.findByPk(data.id, {include: Role})
+                                .then(result => {
+                                    res.send({
+                                        error: 0,
+                                        user: result
+                                    })
+                                }).catch(err => {
+                                console.log(err);
+                                res.status(500).send({
+                                    error: err
+                                })
+                            });
+                        }).catch(err => {
+                        console.log(err);
+                        res.status(500).send({
+                            error: err
+                        });
+                    })
+                }).catch(err => {
+                console.log(err);
+                res.status(500).send({
+                    error: err
+                });
+            })
+        }
+    },
+    changePassword(req, res) {
+        let {password, id} = req.body;
+        siteUser.findByPk(id)
+            .then(user => {
+                bcrypt.genSalt(10, function (err, salt) {
+                    bcrypt.hash(password, salt, function (err, hash) {
+                        user.password = hash;
+                        user.save()
+                            .then(data => {
+                                res.send({
+                                    user: data
+                                })
+                            }).catch(err => {
+                            console.log(err);
+                            res.status(500).send({
+                                error: err
+                            });
+                        })
+                    });
+                });
+            }).catch(err => {
+            console.log(err);
+            res.status(500).send({
+                error: err
+            });
+        })
+    },
+    loginUser(req, res) {
+        let {username, password} = req.body;
+        siteUser.findOne({
+            where: {
+                username: username
+            }
+        }).then(user => {
+            bcrypt.compare(password, user.password).then((result) => {
+                if (result === true) {
+                    req.session.siteUser = user;
+                    req.session.siteStatus = true;
+                    req.session.save(err => {
+                        if (err)
+                            console.log(err);
+                        res.send({
+                            error: false,
+                            user: user,
+                        });
+                    });
+                } else {
+                    res.send({
+                        error: true,
+                    })
+                }
+            });
+        }).catch(err => {
+            res.send({
+                error: true,
+            })
+        });
+    },
+    logoutUser(req, res) {
+        if (req.session.siteStatus) {
+            res.clearCookie('siteUser');
+            req.session.siteStatus = false;
+            res.send({
+                error: 'false',
+                msg: 'done'
+            })
+        }
+    },
+    checkLogin(req, res) {
+        if (req.session.siteStatus) {
+            res.send({
+                status: true,
+                user: req.session.siteUser,
+            })
+        } else {
+            res.send({
+                status: false,
+                user: null
+            })
+        }
     }
 };

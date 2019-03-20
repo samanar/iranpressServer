@@ -15,6 +15,7 @@ const headerDesign = require('../database/models/headerDesign');
 const footerDesign = require('../database/models/footerDeisng');
 const lives = require('../database/models/lives');
 const footerList = require('../database/models/footerLists');
+const role = require('../database/models/roles');
 
 
 router.get('/', async function (req, res) {
@@ -71,6 +72,15 @@ router.get('/', async function (req, res) {
     // header and footer design initializing
     await headerDesign.create();
     await footerDesign.create();
+    await role.create({
+        name: 'admin',
+        description: 'admin'
+    });
+    await role.create({
+        name: 'test',
+        description: 'just testing here'
+    });
+
 
     for (let i = 0; i < 3; i++) {
         footerList.create({

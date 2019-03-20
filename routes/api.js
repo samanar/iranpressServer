@@ -31,6 +31,7 @@ const headerDesignController = require('../controllers/headerDesign');
 const footerDesignController = require('../controllers/footerDesign');
 const liveController = require('../controllers/lives');
 const roleController = require('../controllers/roles');
+const siteUserController = require('../controllers/siteUsers');
 
 //root
 router.get('/', mainController.getMain);
@@ -134,6 +135,16 @@ router.post('/lives/delete', liveController.deleteLive);
 router.get('/roles', roleController.getRole);
 router.post('/roles', roleController.addRole);
 router.post('/roles/update', roleController.updateRole);
+
+//users
+router.get('/siteUsers', siteUserController.getUsers);
+router.post('/siteUsers', siteUserController.addUser);
+router.post('/siteUsers/delete', siteUserController.deleteUser);
+router.post('/siteUsers/update', siteUserController.updateUser);
+router.post('/siteUsers/change', siteUserController.changePassword);
+router.post('/siteUser/login', siteUserController.loginUser);
+router.post('/siteUser/logout', siteUserController.logoutUser);
+router.post('/siteUser/checkLogin', siteUserController.checkLogin);
 
 
 module.exports = router;
