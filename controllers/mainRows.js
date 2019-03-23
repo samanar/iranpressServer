@@ -4,7 +4,6 @@ const RowColumns = require('../database/models/rowColumns');
 const columnModules = require('../database/models/columnModules');
 
 module.exports = {
-
     getRows(req, res) {
         MainRows.findAll({
             include: [
@@ -114,11 +113,15 @@ module.exports = {
         let column_id = req.body.column_id;
         let module_id = req.body.module_id;
         let module_type = req.body.module_type;
+        let default_option = req.body.default;
+        let defaultType = req.body.defaultType;
         let module = await Module.findByPk(module_id);
         columnModules.create({
             rowColumnId: column_id,
             moduleId: module_id,
-            module_type: module_type
+            module_type: module_type,
+            default: default_option,
+            defaultType: defaultType
         }).then(data => {
             columnModules.findByPk(data.id, {include: [Module]})
                 .then(result => {

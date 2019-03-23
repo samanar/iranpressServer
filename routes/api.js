@@ -44,6 +44,9 @@ const liveController = require('../controllers/lives');
 const roleController = require('../controllers/roles');
 const siteUserController = require('../controllers/siteUsers');
 const bannerController = require('../controllers/banner');
+const shareController = require('../controllers/shares');
+const weatherController = require('../controllers/weather');
+
 
 //root
 router.get('/', mainController.getMain);
@@ -163,5 +166,16 @@ router.get('/banners', bannerController.getBanners);
 router.post('/banners', bannerUpload.single('image'), bannerController.addBanner);
 router.post('/banners/update', bannerController.updateBanner);
 router.post('/banners/delete', bannerController.deleteBanner);
+
+//shares
+router.get('/shares', shareController.getShare);
+router.post('/shares/update', shareController.updateShare);
+
+//weather
+router.get('/weather', weatherController.getWeather);
+router.post('/weather/update', weatherController.updateWeather);
+
+
+router.get('/test', mainController.automaticAssignment);
 
 module.exports = router;

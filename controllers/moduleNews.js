@@ -26,7 +26,7 @@ let self = module.exports = {
     async deactivateModuleNews(req, res) {
         let id = req.body.id;
 
-        ModuleNews.findById(id).then(result => {
+        ModuleNews.findByPk(id).then(result => {
             result.status = 0;
             result.active_since = null;
             result.save().then(() => {
@@ -47,7 +47,7 @@ let self = module.exports = {
     activateModuleNews: function (req, res) {
         let id = req.body.id;
 
-        ModuleNews.findById(id).then(result => {
+        ModuleNews.findByPk(id).then(result => {
             result.status = 1;
             result.active_since = new Date();
             result.save().then(() => {
@@ -67,7 +67,7 @@ let self = module.exports = {
     },
     replaceNews: async function (module_id, replaceMode) {
         try {
-            let module = await Module.findById(module_id);
+            let module = await Module.findByPk(module_id);
             let active_news = await ModuleNews.findAll({
                 where: {status: 1, moduleId: module_id},
                 order: [['active_since']],
@@ -75,10 +75,9 @@ let self = module.exports = {
             });
             console.log(active_news.length);
             if (module.maxActives > active_news.length) {
-                console.log("stopping");
+                console.log("maxActives is bigger so there is no need to replace news");
                 return;
             }
-            console.log("pass");
             if (!active_news.length)
                 return;
             switch (replaceMode) {
@@ -125,6 +124,48 @@ let self = module.exports = {
         } catch (err) {
             throw(err)
         }
+
+    },
+    addModuleNewsExport: async function (module, news) {
+        console.log("addModuleNewsExport");
+        return new Promise(async function (resolve, reject) {
+            try {
+                news.status = 3;
+                await news.save();
+                let count = await ModuleNews.count({where: {moduleId: module.id, newsId: news.id,}});
+                if (count !== 0) {
+                    console.log("news already there");
+                    reject(false);
+                } else {
+                    if (module.automatic) {
+                        await self.replaceNews(module.id, module.replaceMode);
+                        ModuleNews.create({
+                            moduleId: module.id,
+                            newsId: news.id,
+                            active_since: new Date(),
+                            status: 1
+                        }).then(module_news => {
+                            resolve(module_news);
+                        }).catch(err => {
+                            reject(err)
+                        });
+                    } else {
+                        ModuleNews.create({
+                            moduleId: module.id,
+                            newsId: news.id,
+                            active_since: null,
+                            status: 0
+                        }).then(module_news => {
+                            resolve(module_news)
+                        }).catch(err => {
+                            reject(err)
+                        });
+                    }
+                }
+            } catch (err) {
+                reject(err)
+            }
+        });
 
     },
     addModuleNews: async function (req, res) {

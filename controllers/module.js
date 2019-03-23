@@ -38,6 +38,7 @@ module.exports = {
         let maxActives = req.body.maxActives;
         let categories = req.body.categories;
         let subCategories = req.body.subCategories;
+        let newsAutomatic = req.body.newsAutomatic;
 
         moduleCategory.destroy({where: {moduleId: id}});
         moduleCategory.destroy({where: {moduleId: null}});
@@ -62,6 +63,7 @@ module.exports = {
                 module.newsNumber = newsNumber;
                 module.replaceMode = replaceMode;
                 module.maxActives = maxActives;
+                module.newsAutomatic = newsAutomatic;
                 module.save()
                     .then(data => {
                         res.send({

@@ -6,9 +6,17 @@ module.exports = sequelize.define('column_modules', {
         module_type: {
             type: Sequelize.INTEGER, defaultValue: 0
         },
+        default: {
+            type: Sequelize.BOOLEAN, defaultValue: false
+        },
+        defaultType: {
+            // 1 --> banner
+            // 2 --> redirects
+            type: Sequelize.INTEGER, defaultValue: 1
+        },
         show_title: {
             type: Sequelize.BOOLEAN, defaultValue: true
         },
     },
-    { timestamps: false}
+    {timestamps: false}
 );

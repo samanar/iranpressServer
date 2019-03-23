@@ -24,6 +24,7 @@ const footerListItems = require('./models/footerListItems');
 const siteUser = require('./models/siteUsers');
 const Role = require('./models/roles');
 const Banner = require('./models/banner');
+const Share = require('./models/share');
 
 
 const sequelize = require('./config');

@@ -17,6 +17,8 @@ const lives = require('../database/models/lives');
 const footerList = require('../database/models/footerLists');
 const role = require('../database/models/roles');
 const siteUser = require('../database/models/siteUsers');
+const Share = require('../database/models/share');
+const Weather = require('../database/models/weather');
 
 
 router.get('/', async function (req, res) {
@@ -81,6 +83,8 @@ router.get('/', async function (req, res) {
         name: 'test',
         description: 'just testing here'
     });
+
+    await Weather.create();
 
     await siteUser.create({
         username: 'admin',
@@ -389,6 +393,26 @@ router.get('/design', async function (req, res, next) {
         moduleId: 5
     });
 
+    res.send('done')
+});
+
+router.get('/share', function (req, res) {
+    shares = [
+        {name: 'email', title: 'Email', icon: 'envelope'},
+        {name: 'facebook', title: 'Facebook', icon: 'facebook'},
+        {name: 'googleplus', title: 'Google +', icon: 'google-plus'},
+        {name: 'linkedin', title: 'LinkedIn', icon: 'linkedin'},
+        {name: 'pinterest', title: 'Pinterest', icon: 'pinterest'},
+        {name: 'reddit', title: 'Reddit', icon: 'reddit'},
+        {name: 'skype', title: 'Skype', icon: 'skype'},
+        {name: 'telegram', title: 'Telegram', icon: 'telegram'},
+        {name: 'twitter', title: 'Twitter', icon: 'twitter'},
+        {name: 'vk', title: 'VKontakte', icon: 'vk'},
+        {name: 'weibo', title: 'Weibo', icon: 'weibo'},
+        {name: 'whatsapp', title: 'Whatsapp', icon: 'whatsapp'},
+    ];
+    for (let i = 0; i < shares.length; i++)
+        Share.create(shares[i]);
     res.send('done')
 });
 
