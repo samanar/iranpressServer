@@ -6,16 +6,27 @@ const Category = require('../database/models/category');
 const subCategory = require('../database/models/subCategory');
 
 let self = module.exports = {
+    async getFooterAll(req, res) {
+        let [footerDesign, footerLists] = await Promise.all([
+            footerDesignModel.findByPk(1),
+            footerListModel.findAll({include: footerListItemModel, order: [['id', 'ASC']]})
+        ]);
+
+        res.send({
+            footer: footerDesign,
+            footerLists: footerLists
+        })
+    },
     async getFooter(req, res) {
         try {
             let [footerDesign, footerLists] = await Promise.all([
                 footerDesignModel.findOne({where: {id: 1}}),
-                footerListModel.findAll({include: footerListItemModel , order:[['id' , 'ASC']]})
+                footerListModel.findAll({include: footerListItemModel, order: [['id', 'ASC']]})
             ]);
             if (!footerDesign) {
                 footerDesign = await footerDesignModel.create();
                 await self.createListItems(footerDesign.numberOfRows, footerDesign.numberOfListsPerRow);
-                let footerLists = await footerListModel.findAll({include: footerListItemModel , order: [['id' , 'ASC']]});
+                let footerLists = await footerListModel.findAll({include: footerListItemModel, order: [['id', 'ASC']]});
                 res.send({
                     footerDesign: footerDesign,
                     footerLists: footerLists
@@ -90,7 +101,7 @@ let self = module.exports = {
             await self.createListItems2(numberOfRows, numberOfListsPerRow).then(() => {
                 footerListModel.findAll({
                     include: footerListItemModel,
-                    order:[['id' , 'ASC']]
+                    order: [['id', 'ASC']]
                 }).then(footerLists => {
                     console.log(footerLists.length);
                     res.send({

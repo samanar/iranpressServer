@@ -12,6 +12,8 @@ module.exports = sequelize.define('column_modules', {
         defaultType: {
             // 1 --> banner
             // 2 --> redirects
+            // 3 --> lives
+            // 4 --> weather
             type: Sequelize.INTEGER, defaultValue: 1
         },
         show_title: {

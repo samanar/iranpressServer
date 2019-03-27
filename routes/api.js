@@ -46,7 +46,7 @@ const siteUserController = require('../controllers/siteUsers');
 const bannerController = require('../controllers/banner');
 const shareController = require('../controllers/shares');
 const weatherController = require('../controllers/weather');
-
+const StatisticController = require('../controllers/statistics');
 
 //root
 router.get('/', mainController.getMain);
@@ -137,6 +137,8 @@ router.post('/footer/item', footerDesignController.addItem);
 router.post('/footer/item/delete', footerDesignController.deleteItem);
 router.post('/footer/item/edit', footerDesignController.editItemText);
 router.post('/footer/title', footerDesignController.changeTitle);
+router.get('/header/all', headerDesignController.getHeaderWithPages);
+router.get('/footer/all', footerDesignController.getFooterAll);
 
 
 //lives
@@ -177,5 +179,8 @@ router.post('/weather/update', weatherController.updateWeather);
 
 
 router.get('/test', mainController.automaticAssignment);
+
+router.get('/statistics', StatisticController.getStatistcs);
+router.get('/statistics/add', StatisticController.addDaily);
 
 module.exports = router;
