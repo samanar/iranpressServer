@@ -17,5 +17,39 @@ module.exports = {
                 });
             })
         })
+    },
+    updateSwiperSetting(req, res) {
+        let {
+            id,
+            swiperAnimations,
+            swiperInterval,
+            swiperAutomatic,
+            showTag,
+            tagText
+        } = req.body;
+        ColumnModules.findByPk(id)
+            .then(data => {
+                data.swiperAnimations = swiperAnimations;
+                data.swiperInterval = swiperInterval;
+                data.swiperAutomatic = swiperAutomatic;
+                data.showTag = showTag;
+                data.tagText = tagText;
+                data.save()
+                    .then(result => {
+                        res.send({
+                            columnModule: result
+                        })
+                    }).catch(err => {
+                        console.log(err);
+                        res.status(500).send({
+                            error: err
+                        })
+                    })
+            }).catch(err => {
+                console.log(err);
+                res.status(500).send({
+                    error: err
+                })
+            })
     }
 };

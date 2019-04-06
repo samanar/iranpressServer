@@ -17,8 +17,19 @@ const bannerStorage = multer.diskStorage({
     }
 });
 
+const redirectStorage = multer.diskStorage({
+    destination: "./public/uploads/redirects/",
+    filename: function (req, file, cb) {
+        cb(null, 'Image' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+
 const bannerUpload = multer({
     storage: bannerStorage
+});
+const redirectUpload = multer({
+    storage: redirectStorage
 });
 const upload = multer({
     storage: storage,
@@ -47,6 +58,7 @@ const bannerController = require('../controllers/banner');
 const shareController = require('../controllers/shares');
 const weatherController = require('../controllers/weather');
 const StatisticController = require('../controllers/statistics');
+const redirectController = require('../controllers/redirect');
 
 //root
 router.get('/', mainController.getMain);
@@ -95,6 +107,7 @@ router.post('/mainRows/updateVertical', mainRowsController.updateVertical);
 
 //columnModules
 router.post('/columnModules/showTitle', columnModuleController.changeShowTitle);
+router.post('/columnModules/swiper/update', columnModuleController.updateSwiperSetting);
 
 //users
 router.post('/users/add', userController.addUser);
@@ -142,7 +155,7 @@ router.get('/footer/all', footerDesignController.getFooterAll);
 
 
 //lives
-
+router.post('/lives/main', liveController.getLive);
 router.get('/lives', liveController.getLives);
 router.post('/lives', liveController.addLive);
 router.post('/lives/delete', liveController.deleteLive);
@@ -168,6 +181,13 @@ router.get('/banners', bannerController.getBanners);
 router.post('/banners', bannerUpload.single('image'), bannerController.addBanner);
 router.post('/banners/update', bannerController.updateBanner);
 router.post('/banners/delete', bannerController.deleteBanner);
+router.post('/banners/main', bannerController.getBanner);
+
+// redirects
+router.get('/redirects', redirectController.getRedirects);
+router.post('/redirects', redirectUpload.single('image'), redirectController.addRedirect);
+router.post('/redirects/update', redirectController.updateRedirect);
+router.post('/redirects/main', redirectController.getRedirect);
 
 //shares
 router.get('/shares', shareController.getShare);
@@ -177,9 +197,10 @@ router.post('/shares/update', shareController.updateShare);
 router.get('/weather', weatherController.getWeather);
 router.post('/weather/update', weatherController.updateWeather);
 
-
+// test
 router.get('/test', mainController.automaticAssignment);
 
+// statistics
 router.get('/statistics', StatisticController.getStatistcs);
 router.get('/statistics/add', StatisticController.addDaily);
 

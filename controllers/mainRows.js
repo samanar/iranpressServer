@@ -6,31 +6,36 @@ const columnModules = require('../database/models/columnModules');
 module.exports = {
     getRows(req, res) {
         MainRows.findAll({
-            include: [
-                {
-                    model: RowColumns, include: [
-                        {
-                            model: columnModules, required: false, include: [
-                                {model: Module, required: false}
-                            ]
-                        }]
-                }],
+            include: [{
+                model: RowColumns,
+                include: [{
+                    model: columnModules,
+                    required: false,
+                    include: [{
+                        model: Module,
+                        required: false
+                    }]
+                }]
+            }],
             order: [
                 ['order'],
                 [RowColumns, 'id', 'asc'],
-                [{model: RowColumns}, {model: columnModules}, 'id', 'asc'],
+                [{
+                    model: RowColumns
+                }, {
+                    model: columnModules
+                }, 'id', 'asc'],
             ],
         }).then(data => {
             res.send({
                 mainRows: data
             })
         }).catch(err => {
-                console.log(err);
-                res.status(500).send({
-                    error: err
-                });
-            }
-        )
+            console.log(err);
+            res.status(500).send({
+                error: err
+            });
+        })
     },
     addRow(req, res) {
         let columnNumber = req.body.columnNumber;
@@ -98,7 +103,11 @@ module.exports = {
     },
     getMainRowsMaxOrder(req, res) {
         let page = req.query.page;
-        MainRows.max('order', {where: {type: 0}}).then(max => {
+        MainRows.max('order', {
+            where: {
+                type: 0
+            }
+        }).then(max => {
             res.send({
                 max: max
             });
@@ -115,15 +124,19 @@ module.exports = {
         let module_type = req.body.module_type;
         let default_option = req.body.default;
         let defaultType = req.body.defaultType;
+        let defaultId = req.body.defaultId;
         let module = await Module.findByPk(module_id);
         columnModules.create({
             rowColumnId: column_id,
             moduleId: module_id,
             module_type: module_type,
             default: default_option,
-            defaultType: defaultType
+            defaultType: defaultType,
+            defaultId: defaultId
         }).then(data => {
-            columnModules.findByPk(data.id, {include: [Module]})
+            columnModules.findByPk(data.id, {
+                    include: [Module]
+                })
                 .then(result => {
                     res.send({
                         columnModule: result
@@ -140,15 +153,35 @@ module.exports = {
     deleteRow(req, res) {
         let row_id = req.query.row_id;
         Promise.all([
-            MainRows.destroy({where: {id: row_id}}),
-            RowColumns.findAll({where: {mainRowId: row_id}}).then(columns => {
+            MainRows.destroy({
+                where: {
+                    id: row_id
+                }
+            }),
+            RowColumns.findAll({
+                where: {
+                    mainRowId: row_id
+                }
+            }).then(columns => {
                 for (let i = 0; i < columns.length; i++) {
-                    columnModules.destroy({where: {rowColumnId: columns[i].id}});
-                    columnModules.destroy({where: {rowColumnId: null}});
+                    columnModules.destroy({
+                        where: {
+                            rowColumnId: columns[i].id
+                        }
+                    });
+                    columnModules.destroy({
+                        where: {
+                            rowColumnId: null
+                        }
+                    });
                     columns[i].destroy()
                 }
             }),
-            RowColumns.destroy({where: {mainRowId: null}})
+            RowColumns.destroy({
+                where: {
+                    mainRowId: null
+                }
+            })
         ]).then(() => {
             res.send('done')
         }).catch(er => {
@@ -166,7 +199,9 @@ module.exports = {
                 id: columnModuleId
             }
         }).then(data => {
-            res.send({data: data})
+            res.send({
+                data: data
+            })
         }).catch(err => {
             console.log(err);
             res.status(500).send({
@@ -260,7 +295,14 @@ module.exports = {
         })
     },
     updateVertical(req, res) {
-        let {row_id, width, height, top, right, title} = req.body;
+        let {
+            row_id,
+            width,
+            height,
+            top,
+            right,
+            title
+        } = req.body;
         MainRows.findByPk(row_id).then(row => {
             row.title = title
             row.width = width;

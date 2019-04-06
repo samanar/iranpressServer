@@ -9,6 +9,7 @@ const Category = require('../database/models/category');
 const SubCategory = require('../database/models/subCategory');
 const moduleCategory = require('../database/models/moduleCategories');
 const moduleSubCategory = require('../database/models/moduleSubCategories');
+const Tag = require('../database/models/tag');
 
 //controllers
 const moduleNewsController = require('./moduleNews');
@@ -18,35 +19,51 @@ let self = module.exports = {
     async getMain(req, res) {
         let pageId = req.query.page ? req.query.page : 1;
         let mainRows = await MainRows.findAll({
-            where: {pageId: pageId},
-            include: [
-                {
-                    model: RowColumns,
-                    include: [
-                        {
-                            model: columnModules,
+            where: {
+                pageId: pageId
+            },
+            include: [{
+                model: RowColumns,
+                include: [{
+                    model: columnModules,
+                    include: [{
+                        model: Module,
+                        required: false,
+                        include: [{
+                            model: ModuleNews,
+                            required: false,
+                            where: {
+                                status: 1
+                            },
                             include: [{
-                                model: Module,
+                                model: News,
                                 include: [{
-                                    model: ModuleNews, required: false, where: {status: 1},
-                                    include: [{
-                                        model: News, include: [
-                                            {
-                                                model: Image, required: false
-                                            }
-                                        ]
-                                    }]
+                                    model: Image,
+                                    required: false
+                                }, {
+                                    model: Category,
+                                    required: false
+                                }, {
+                                    model: SubCategory,
+                                    required: false
+                                }, {
+                                    model: Tag,
+                                    required: false
                                 }]
-                            }],
+                            }]
+                        }]
+                    }],
 
-                        }
-                    ]
-                }
-            ],
+                }]
+            }],
             order: [
                 ['order'],
                 [RowColumns, 'id', 'asc'],
-                [{model: RowColumns}, {model: columnModules}, 'id', 'asc'],
+                [{
+                    model: RowColumns
+                }, {
+                    model: columnModules
+                }, 'id', 'asc'],
             ],
         });
         res.send({
@@ -61,17 +78,27 @@ let self = module.exports = {
         //Todo : check for priorities
         let [modules, news] = await Promise.all([
             Module.findAll({
-                where: {newsAutomatic: 1},
-                include: [
-                    {model: moduleCategory},
-                    {model: moduleSubCategory}
+                where: {
+                    newsAutomatic: 1
+                },
+                include: [{
+                        model: moduleCategory
+                    },
+                    {
+                        model: moduleSubCategory
+                    }
                 ]
             }),
             News.findAll({
-                where: {status: 2},
-                include: [
-                    {model: Category},
-                    {model: SubCategory}
+                where: {
+                    status: 2
+                },
+                include: [{
+                        model: Category
+                    },
+                    {
+                        model: SubCategory
+                    }
                 ]
             })
         ]);
@@ -87,9 +114,9 @@ let self = module.exports = {
                                     .then(data => {
                                         console.log("module news created for --> " + itemCat.title + " between module:news " + module.id + ":" + item.id)
                                     }).catch(err => {
-                                    console.log(err);
-                                    console.log("something bad happened")
-                                })
+                                        console.log(err);
+                                        console.log("something bad happened")
+                                    })
                             }
                         });
                     });
@@ -100,9 +127,9 @@ let self = module.exports = {
                                     .then(data => {
                                         console.log("module news created for --> " + itemSubCat.title + " between module:news " + module.id + ":" + item.id)
                                     }).catch(err => {
-                                    console.log(err);
-                                    console.log("something bad happened")
-                                })
+                                        console.log(err);
+                                        console.log("something bad happened")
+                                    })
                             }
                         });
 

@@ -397,19 +397,66 @@ router.get('/design', async function (req, res, next) {
 });
 
 router.get('/share', function (req, res) {
-    shares = [
-        {name: 'email', title: 'Email', icon: 'envelope'},
-        {name: 'facebook', title: 'Facebook', icon: 'facebook'},
-        {name: 'googleplus', title: 'Google +', icon: 'google-plus'},
-        {name: 'linkedin', title: 'LinkedIn', icon: 'linkedin'},
-        {name: 'pinterest', title: 'Pinterest', icon: 'pinterest'},
-        {name: 'reddit', title: 'Reddit', icon: 'reddit'},
-        {name: 'skype', title: 'Skype', icon: 'skype'},
-        {name: 'telegram', title: 'Telegram', icon: 'telegram'},
-        {name: 'twitter', title: 'Twitter', icon: 'twitter'},
-        {name: 'vk', title: 'VKontakte', icon: 'vk'},
-        {name: 'weibo', title: 'Weibo', icon: 'weibo'},
-        {name: 'whatsapp', title: 'Whatsapp', icon: 'whatsapp'},
+    shares = [{
+            name: 'email',
+            title: 'Email',
+            icon: 'fa-envelope'
+        },
+        {
+            name: 'facebook',
+            title: 'Facebook',
+            icon: 'fa-facebook'
+        },
+        {
+            name: 'googleplus',
+            title: 'Google +',
+            icon: 'fa-google-plus'
+        },
+        {
+            name: 'linkedin',
+            title: 'LinkedIn',
+            icon: 'fa-linkedin'
+        },
+        {
+            name: 'pinterest',
+            title: 'Pinterest',
+            icon: 'fa-pinterest'
+        },
+        {
+            name: 'reddit',
+            title: 'Reddit',
+            icon: 'fa-reddit'
+        },
+        {
+            name: 'skype',
+            title: 'Skype',
+            icon: 'fa-skype'
+        },
+        {
+            name: 'telegram',
+            title: 'Telegram',
+            icon: 'fa-telegram'
+        },
+        {
+            name: 'twitter',
+            title: 'Twitter',
+            icon: 'fa-twitter'
+        },
+        {
+            name: 'vk',
+            title: 'VKontakte',
+            icon: 'fa-vk'
+        },
+        {
+            name: 'weibo',
+            title: 'Weibo',
+            icon: 'fa-weibo'
+        },
+        {
+            name: 'whatsapp',
+            title: 'Whatsapp',
+            icon: 'fa-whatsapp'
+        },
     ];
     for (let i = 0; i < shares.length; i++)
         Share.create(shares[i]);

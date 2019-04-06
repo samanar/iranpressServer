@@ -25,6 +25,7 @@ const siteUser = require('./models/siteUsers');
 const Role = require('./models/roles');
 const Banner = require('./models/banner');
 const Share = require('./models/share');
+const Redirect = require('./models/redirects');
 
 
 const sequelize = require('./config');
@@ -53,8 +54,12 @@ pageModules.belongsTo(Design);
 Design.hasMany(pageModules);
 
 //news images relationship
-News.belongsToMany(Image, {through: 'NewsImage'});
-Image.belongsToMany(News, {through: 'NewsImage'});
+News.belongsToMany(Image, {
+    through: 'NewsImage'
+});
+Image.belongsToMany(News, {
+    through: 'NewsImage'
+});
 
 //footer deisng relations
 footerLists.hasMany(footerListItems);
@@ -76,14 +81,27 @@ moduleSubCategories.belongsTo(SubCategory);
 
 
 //news tags relationships
-Tag.belongsToMany(News, {through: 'News_Tag'});
-News.belongsToMany(Tag, {through: 'News_Tag'});
+Tag.belongsToMany(News, {
+    through: 'News_Tag'
+});
+News.belongsToMany(Tag, {
+    through: 'News_Tag'
+});
 
 //News categories and subcategories relationship
-News.belongsToMany(Category, {through: 'News_Category'});
-Category.belongsToMany(News, {through: 'News_Category'});
-News.belongsToMany(SubCategory, {through: 'News_SubCategory'});
-SubCategory.belongsToMany(News, {through: 'News_SubCategory'});
+News.belongsToMany(Category, {
+    through: 'News_Category'
+});
+Category.belongsToMany(News, {
+    through: 'News_Category'
+});
+News.belongsToMany(SubCategory, {
+    through: 'News_SubCategory'
+});
+SubCategory.belongsToMany(News, {
+    through: 'News_SubCategory'
+});
+
 
 //user roles
 siteUser.belongsTo(Role);
@@ -105,5 +123,3 @@ sequelize.sync()
     .catch(err => {
         console.log('someting went wrong trying to create database tables');
     });
-
-

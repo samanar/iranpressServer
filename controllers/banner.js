@@ -2,6 +2,20 @@ const Banner = require('../database/models/banner');
 const fs = require('fs');
 
 module.exports = {
+    getBanner(req, res) {
+        let id = req.body.id;
+        Banner.findByPk(id)
+            .then(data => {
+                res.send({
+                    banner: data
+                })
+            }).catch(err => {
+                console.log(err);
+                res.status(500).send({
+                    error: err
+                })
+            })
+    },
     getBanners(req, res) {
         Banner.findAll()
             .then(data => {
@@ -9,11 +23,11 @@ module.exports = {
                     banners: data
                 });
             }).catch(err => {
-            console.log(err);
-            res.status(500).send({
-                error: err
+                console.log(err);
+                res.status(500).send({
+                    error: err
+                });
             });
-        });
     },
     addBanner(req, res) {
         let name = req.body.name;
@@ -33,7 +47,11 @@ module.exports = {
         })
     },
     updateBanner(req, res) {
-        let {id, redirect, name} = req.body;
+        let {
+            id,
+            redirect,
+            name
+        } = req.body;
         Banner.findByPk(id)
             .then(banner => {
                 banner.redirect = parseInt(redirect);
@@ -44,17 +62,17 @@ module.exports = {
                             banner: data
                         })
                     }).catch(err => {
-                    console.log(err);
-                    res.status(500).send({
-                        error: err``
-                    });
-                })
+                        console.log(err);
+                        res.status(500).send({
+                            error: err ``
+                        });
+                    })
             }).catch(err => {
-            console.log(err);
-            res.status(500).send({
-                error: err
-            });
-        })
+                console.log(err);
+                res.status(500).send({
+                    error: err
+                });
+            })
     },
     deleteBanner(req, res) {
         let id = req.body.id;
@@ -69,16 +87,16 @@ module.exports = {
                             banner: data
                         })
                     }).catch(err => {
-                    console.log(err);
-                    res.status(500).send({
-                        error: err
+                        console.log(err);
+                        res.status(500).send({
+                            error: err
+                        });
                     });
-                });
             }).catch(err => {
-            console.log(err);
-            res.status(500).send({
-                error: err
-            });
-        })
+                console.log(err);
+                res.status(500).send({
+                    error: err
+                });
+            })
     }
 };
