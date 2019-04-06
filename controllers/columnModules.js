@@ -25,6 +25,8 @@ module.exports = {
             swiperInterval,
             swiperAutomatic,
             showTag,
+            showDescription,
+            descriptionType,
             tagText
         } = req.body;
         ColumnModules.findByPk(id)
@@ -34,6 +36,8 @@ module.exports = {
                 data.swiperAutomatic = swiperAutomatic;
                 data.showTag = showTag;
                 data.tagText = tagText;
+                data.showDescription = showDescription;
+                data.descriptionType = descriptionType;
                 data.save()
                     .then(result => {
                         res.send({

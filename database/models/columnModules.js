@@ -50,6 +50,26 @@ module.exports = sequelize.define('column_modules', {
     swiperAnimations: {
         type: Sequelize.BOOLEAN,
         defaultValue: true
+    },
+    showDescription: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+    },
+    descriptionType: {
+        // 1 --> title
+        // 2 --> title2
+        // 3 --> lead
+        // 4 --> content
+        type: Sequelize.INTEGER,
+        defaultValue: 4
+    },
+    titleType: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1
+    },
+    showSwiperTitle: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
     }
 
 }, {

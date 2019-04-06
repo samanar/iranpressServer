@@ -59,6 +59,7 @@ const shareController = require('../controllers/shares');
 const weatherController = require('../controllers/weather');
 const StatisticController = require('../controllers/statistics');
 const redirectController = require('../controllers/redirect');
+const publicController = require('../controllers/public');
 
 //root
 router.get('/', mainController.getMain);
@@ -203,5 +204,8 @@ router.get('/test', mainController.automaticAssignment);
 // statistics
 router.get('/statistics', StatisticController.getStatistcs);
 router.get('/statistics/add', StatisticController.addDaily);
+
+// public
+router.get('/images', publicController.serveImages);
 
 module.exports = router;

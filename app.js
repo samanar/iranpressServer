@@ -34,15 +34,20 @@ app.use(function (req, res, next) {
 });
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({
+    extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+global.staticPath = (path.join(__dirname, 'public'));
 app.use(session({
     path: '/',
     secret: 'password',
     resave: false,
     saveUninitialized: false,
-    cookie: {secure: false},
+    cookie: {
+        secure: false
+    },
     maxAge: 60 * 60 * 1000,
 }));
 

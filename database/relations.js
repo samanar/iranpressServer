@@ -26,6 +26,7 @@ const Role = require('./models/roles');
 const Banner = require('./models/banner');
 const Share = require('./models/share');
 const Redirect = require('./models/redirects');
+const Attachement = require('./models/Attachments');
 
 
 const sequelize = require('./config');
@@ -101,6 +102,15 @@ News.belongsToMany(SubCategory, {
 SubCategory.belongsToMany(News, {
     through: 'News_SubCategory'
 });
+
+// news attachments
+News.belongsToMany(Attachement, {
+    through: 'News_Attachement'
+});
+Attachement.belongsToMany(News, {
+    through: 'News_Attachement'
+})
+
 
 
 //user roles
