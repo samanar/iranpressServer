@@ -1,5 +1,6 @@
 let express = require("express");
 let router = express.Router();
+// let top = 0;
 
 const News = require("../database/models/news");
 const Module = require("../database/models/modules");
@@ -21,6 +22,25 @@ const Share = require("../database/models/share");
 const Weather = require("../database/models/weather");
 
 router.get("/", async function(req, res) {
+  for (let i = 0; i < 10; i++) {
+    let title = "Title " + (i + 1);
+    let description = "#" + (i + 1);
+    description +=
+      "Lorem ipsum dolor sit amet, his lobortis abhorreant ne, eum cu mazim tritani. Qui ne nusquam fabellas voluptaria, ut alia simul pertinax vel, qui an quot facilis. Per prodesset efficiendi ea, \n aeterno officiis vis ea, cu eros blandit conceptam his. No qui bonorum reprimique persequeris. In recusabo praesent vis, pri tempor sensibus facilisis ei.\n Dico epicuri an est, at his hinc admodum mnesarchum.";
+    let point = Math.floor(Math.random() * 11);
+    let title2 = "Title2 for news id  " + (i + 1);
+    let lead = "lead for news id  " + (i + 1);
+
+    await News.create({
+      title: title,
+      content: description,
+      point: point,
+      lead: lead,
+      title2: title2,
+      status: 2
+    });
+  }
+
   lives.create({
     url: "http://wpc.785F5.zetacdn.net/24785F5/kurdish/kurdishStream.m3u8",
     name: "test2"
@@ -118,6 +138,22 @@ router.get("/", async function(req, res) {
     name: "Trending News"
   });
 
+  for (let i = 0; i < 10; i++) {
+    await ModuleNews.create({
+      moduleId: top.id,
+      newsId: i + 1,
+      status: 0
+    });
+  }
+
+  for (let i = 0; i < 6; i++) {
+    await ModuleNews.create({
+      moduleId: trending.id,
+      newsId: i + 1,
+      status: 0
+    });
+  }
+
   await Design.create({
     pageId: 2,
     sidebar: false,
@@ -130,7 +166,7 @@ router.get("/", async function(req, res) {
 
 /* GET home page. */
 router.get("/news", async function(req, res, next) {
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 10; i++) {
     let title = "Title " + (i + 1);
     let description = "#" + (i + 1);
     description +=
@@ -153,7 +189,7 @@ router.get("/news", async function(req, res, next) {
     });
   }
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 6; i++) {
     await ModuleNews.create({
       moduleId: trending.id,
       newsId: i + 1,
