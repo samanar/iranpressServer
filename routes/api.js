@@ -95,6 +95,7 @@ router.get("/pageModule/max", pageModuleController.getPageModuleMaxOrder);
 
 //main rows
 router.get("/mainRows", mainRowsController.getRows);
+router.post("/mainRows/page", mainRowsController.getPageRows);
 router.post("/mainRows", mainRowsController.addRow);
 router.get("/mainRows/max", mainRowsController.getMainRowsMaxOrder);
 router.post("/mainRows/setModule", mainRowsController.setColumnModule);

@@ -78,6 +78,10 @@ module.exports = sequelize.define(
     showSwiperTitle: {
       type: Sequelize.BOOLEAN,
       defaultValue: true
+    },
+    height: {
+      type: Sequelize.INTEGER,
+      defaultValue: 300
     }
   },
   {
