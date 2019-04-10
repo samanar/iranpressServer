@@ -150,6 +150,8 @@ module.exports = {
       let banner = await Banner.findByPk(defaultId);
       let columnModule = await ColumnModules.findByPk(id);
       banner.height = height;
+      columnModule.height = height;
+      await columnModule.save();
       await banner.save();
       res.send({
         banner: banner,
