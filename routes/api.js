@@ -58,6 +58,7 @@ const weatherController = require("../controllers/weather");
 const StatisticController = require("../controllers/statistics");
 const redirectController = require("../controllers/redirect");
 const publicController = require("../controllers/public");
+const breakingDesignController = require("../controllers/breakingDesign");
 
 //root
 router.get("/", mainController.getMain);
@@ -220,6 +221,10 @@ router.post(
 );
 router.post("/redirects/update", redirectController.updateRedirect);
 router.post("/redirects/main", redirectController.getRedirect);
+
+// breaking
+router.get("/breaking", breakingDesignController.getSetting);
+router.post("/breaking", breakingDesignController.updateSetting);
 
 //shares
 router.get("/shares", shareController.getShare);

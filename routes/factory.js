@@ -20,6 +20,7 @@ const role = require("../database/models/roles");
 const siteUser = require("../database/models/siteUsers");
 const Share = require("../database/models/share");
 const Weather = require("../database/models/weather");
+const breakingDesign = require("../database/models/breakingDesign");
 
 router.get("/", async function(req, res) {
   for (let i = 0; i < 10; i++) {
@@ -79,6 +80,8 @@ router.get("/", async function(req, res) {
   // header and footer design initializing
   await headerDesign.create();
   await footerDesign.create();
+  await breakingDesign.create();
+
   await role.create({
     name: "admin",
     description: "admin"
@@ -160,6 +163,70 @@ router.get("/", async function(req, res) {
     sidebar_size: 1,
     direction: false
   });
+
+  shares = [
+    {
+      name: "email",
+      title: "Email",
+      icon: "fa-envelope"
+    },
+    {
+      name: "facebook",
+      title: "Facebook",
+      icon: "fa-facebook"
+    },
+    {
+      name: "googleplus",
+      title: "Google +",
+      icon: "fa-google-plus"
+    },
+    {
+      name: "linkedin",
+      title: "LinkedIn",
+      icon: "fa-linkedin"
+    },
+    {
+      name: "pinterest",
+      title: "Pinterest",
+      icon: "fa-pinterest"
+    },
+    {
+      name: "reddit",
+      title: "Reddit",
+      icon: "fa-reddit"
+    },
+    {
+      name: "skype",
+      title: "Skype",
+      icon: "fa-skype"
+    },
+    {
+      name: "telegram",
+      title: "Telegram",
+      icon: "fa-telegram"
+    },
+    {
+      name: "twitter",
+      title: "Twitter",
+      icon: "fa-twitter"
+    },
+    {
+      name: "vk",
+      title: "VKontakte",
+      icon: "fa-vk"
+    },
+    {
+      name: "weibo",
+      title: "Weibo",
+      icon: "fa-weibo"
+    },
+    {
+      name: "whatsapp",
+      title: "Whatsapp",
+      icon: "fa-whatsapp"
+    }
+  ];
+  for (let i = 0; i < shares.length; i++) Share.create(shares[i]);
 
   res.send("done");
 });
