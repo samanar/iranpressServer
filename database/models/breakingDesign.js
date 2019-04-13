@@ -1,7 +1,7 @@
 const sequelize = require("../config");
 const Sequelize = require("sequelize");
 
-module.exports = sequelize.define("comments", {
+module.exports = sequelize.define("breakingDesign", {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   backgroundColor: {
     type: Sequelize.TEXT,

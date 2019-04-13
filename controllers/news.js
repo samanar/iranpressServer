@@ -11,10 +11,6 @@ module.exports = {
         {
           model: Image,
           required: false
-        },
-        {
-          model: Attachment,
-          required: false
         }
       ],
       where: {
@@ -41,10 +37,6 @@ module.exports = {
           include: [
             {
               model: Image,
-              required: false
-            },
-            {
-              model: Attachment,
               required: false
             }
           ]

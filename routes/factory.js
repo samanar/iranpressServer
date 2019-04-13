@@ -141,11 +141,11 @@ router.get("/", async function(req, res) {
     name: "Trending News"
   });
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 6; i++) {
     await ModuleNews.create({
       moduleId: top.id,
       newsId: i + 1,
-      status: 0
+      status: 1
     });
   }
 
@@ -153,7 +153,7 @@ router.get("/", async function(req, res) {
     await ModuleNews.create({
       moduleId: trending.id,
       newsId: i + 1,
-      status: 0
+      status: 1
     });
   }
 

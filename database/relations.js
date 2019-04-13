@@ -55,10 +55,10 @@ Design.hasMany(pageModules);
 
 //news images relationship
 News.belongsToMany(Image, {
-  through: "NewsImage"
+  through: "News_Image"
 });
 Image.belongsToMany(News, {
-  through: "NewsImage"
+  through: "News_Image"
 });
 
 //footer deisng relations
