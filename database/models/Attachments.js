@@ -1,20 +1,24 @@
-const sequelize = require('../config');
-const Sequelize = require('sequelize');
+const sequelize = require("../config");
+const Sequelize = require("sequelize");
 
-module.exports = sequelize.define('attachments', {
+module.exports = sequelize.define(
+  "attachements",
+  {
     id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
     },
     name: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING
     },
 
     type: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING
     }
-}, {
-    timestamps: false,
-    tableName: 'attachements',
-});
+  },
+  {
+    freezeTableName: true,
+    tableName: "attachements"
+  }
+);

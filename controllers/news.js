@@ -4,12 +4,17 @@ const Module = require("../database/models/modules");
 const Design = require("../database/models/design");
 const Image = require("../database/models/Images");
 const Attachment = require("../database/models/Attachments");
+const Tag = require("../database/models/tag");
 module.exports = {
   getNews(req, res) {
     News.findAll({
       include: [
         {
           model: Image,
+          required: false
+        },
+        {
+          model: Tag,
           required: false
         }
       ],
@@ -37,6 +42,14 @@ module.exports = {
           include: [
             {
               model: Image,
+              required: false
+            },
+            {
+              model: Tag,
+              required: false
+            },
+            {
+              model: Attachment,
               required: false
             }
           ]
