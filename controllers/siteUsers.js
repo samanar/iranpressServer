@@ -212,7 +212,12 @@ let self = (module.exports = {
         where: {
           username: username
         },
-        include: Role
+        include: [
+          {
+            model: Role,
+            required: true
+          }
+        ]
       })
       .then(user => {
         bcrypt.compare(password, user.password).then(result => {
