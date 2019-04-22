@@ -3,7 +3,7 @@ const MainRows = require("../database/models/mainRows");
 const RowColumns = require("../database/models/rowColumns");
 const columnModules = require("../database/models/columnModules");
 
-module.exports = {
+let self = (module.exports = {
   getPageRows(req, res) {
     let pageId = req.body.pageId;
     console.log("here");
@@ -404,5 +404,95 @@ module.exports = {
           error: err
         });
       });
+  },
+  async findMaxOrder(rows, upperBound) {
+    return new Promise(async function(resolve, reject) {
+      let maxOrder = 0;
+      let id = 0;
+      await rows.forEach(item => {
+        if (item.order < upperBound && item.order > maxOrder) {
+          maxOrder = item.order;
+          id = item.id;
+        }
+      });
+      resolve({ maxOrder: maxOrder, rowId: id });
+    });
+  },
+  async findMinOrder(rows, lowerBound) {
+    return new Promise(async function(resolve, reject) {
+      let minOrder = 10000000;
+      let id = 0;
+      await rows.forEach(item => {
+        if (item.order > lowerBound && item.order < minOrder) {
+          minOrder = item.order;
+          id = item.id;
+        }
+      });
+      resolve({ minOrder: minOrder, rowId: id });
+    });
+  },
+  async moveUp(req, res) {
+    let id = req.body.id;
+    try {
+      let row = await MainRows.findByPk(id);
+      let targetOrder = row.order;
+      let rows = await MainRows.findAll({ where: { pageId: row.pageId } });
+      let { maxOrder, rowId } = await self.findMaxOrder(rows, targetOrder);
+      if (rowId !== 0) {
+        row.order = maxOrder;
+        await row.save();
+        rows.forEach(async item => {
+          if (item.id === rowId) {
+            item.order = targetOrder;
+            await item.save();
+          }
+        });
+      }
+
+      res.send({
+        rowId: rowId,
+        order: targetOrder,
+        maxOrder: maxOrder,
+        row: row,
+        rows: rows
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({
+        error: err
+      });
+    }
+  },
+  async moveDown(req, res) {
+    let id = req.body.id;
+    try {
+      let row = await MainRows.findByPk(id);
+      let targetOrder = row.order;
+      let rows = await MainRows.findAll({ where: { pageId: row.pageId } });
+      let { minOrder, rowId } = await self.findMinOrder(rows, targetOrder);
+      if (rowId !== 0) {
+        row.order = minOrder;
+        await row.save();
+        rows.forEach(async item => {
+          if (item.id === rowId) {
+            item.order = targetOrder;
+            await item.save();
+          }
+        });
+      }
+
+      res.send({
+        rowId: rowId,
+        order: targetOrder,
+        minOrder: minOrder,
+        row: row,
+        rows: rows
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({
+        error: err
+      });
+    }
   }
-};
+});
