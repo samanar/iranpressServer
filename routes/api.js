@@ -5,21 +5,21 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: "./public/uploads/headers/",
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, "Image" + Date.now() + path.extname(file.originalname));
   }
 });
 
 const bannerStorage = multer.diskStorage({
   destination: "./public/uploads/banners/",
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, "Image" + Date.now() + path.extname(file.originalname));
   }
 });
 
 const redirectStorage = multer.diskStorage({
   destination: "./public/uploads/redirects/",
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, "Image" + Date.now() + path.extname(file.originalname));
   }
 });
@@ -180,13 +180,15 @@ router.post("/footer/item/edit", footerDesignController.editItemText);
 router.post("/footer/title", footerDesignController.changeTitle);
 router.get("/header/all", headerDesignController.getHeaderWithPages);
 router.get("/footer/all", footerDesignController.getFooterAll);
+router.post("/footer/item/update", footerDesignController.updateListItem);
 
 //lives
 router.post("/lives/main", liveController.getLive);
 router.get("/lives", liveController.getLives);
 router.post("/lives", liveController.addLive);
 router.post("/lives/delete", liveController.deleteLive);
-
+router.post("/lives/update", liveController.updateLive);
+router.post('/lives/checkName', liveController.checkName);
 //roles
 
 router.get("/roles", roleController.getRole);

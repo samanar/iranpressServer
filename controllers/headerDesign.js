@@ -11,9 +11,9 @@ module.exports = {
         let pages = [];
         let [header, image] = await Promise.all([
             headerDesign.findOne({
-                where: {id: 1},
+                where: { id: 1 },
             }),
-            headerImages.findOne({where: {selected: true}})
+            headerImages.findOne({ where: { selected: true } })
         ]);
 
         pagesString = header.pagesString;
@@ -37,7 +37,7 @@ module.exports = {
     async getHeader(req, res) {
         try {
             let [header, images] = await Promise.all([
-                headerDesign.findOne({where: {id: 1}}),
+                headerDesign.findOne({ where: { id: 1 } }),
                 headerImages.findAll()
             ]);
             res.send({
@@ -53,26 +53,27 @@ module.exports = {
     }
     ,
     updateHeader(req, res) {
-        let {type, menuItems, backgroundColor, textColor, pagesString} = req.body;
+        let { type, menuItems, backgroundColor, textColor, pagesString, height } = req.body;
         headerDesign.findOne({
-            where: {id: 1}
+            where: { id: 1 }
         }).then(data => {
             data.type = type;
             data.menuItems = menuItems;
             data.backgroundColor = backgroundColor;
             data.textColor = textColor;
             data.pagesString = pagesString;
+            data.height = height;
             data.save()
                 .then(design => {
                     res.send({
                         headerDesign: design
                     })
                 }).catch(err => {
-                console.log(err);
-                res.status(500).send({
-                    error: err
+                    console.log(err);
+                    res.status(500).send({
+                        error: err
+                    })
                 })
-            })
         }).catch(err => {
             console.log(err);
             res.status(500).send({
@@ -113,11 +114,11 @@ module.exports = {
                     }
                 }
             }).catch(err => {
-            console.log(err);
-            res.status(500).send({
-                error: err
+                console.log(err);
+                res.status(500).send({
+                    error: err
+                })
             })
-        })
     }
 }
-;
+    ;

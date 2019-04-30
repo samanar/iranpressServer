@@ -19,7 +19,10 @@ module.exports = sequelize.define('redirect', {
     redirect: {
         type: Sequelize.INTEGER,
         defaultValue: 1
+    },
+    url: {
+        type: Sequelize.STRING
     }
 }, {
-    timestamps: false
-});
+        timestamps: false
+    });

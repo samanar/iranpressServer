@@ -79,7 +79,8 @@ module.exports = {
             type,
             id,
             redirect,
-            name
+            name,
+            url
         } = req.body
         Redirect.findByPk(id)
             .then(result => {
@@ -87,6 +88,7 @@ module.exports = {
                 result.type = type;
                 result.name = name;
                 result.redirect = redirect
+                result.url = url;
                 result.save()
                     .then(data => {
                         res.send({
