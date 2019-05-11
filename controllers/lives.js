@@ -50,11 +50,12 @@ module.exports = {
     })
   },
   addLive(req, res) {
-    let { url, name } = req.body;
+    let { url, name, backup } = req.body;
     lives
       .create({
         name: name,
-        url: url
+        url: url,
+        backup: backup
       })
       .then(data => {
         res.send({
@@ -69,11 +70,12 @@ module.exports = {
       });
   },
   updateLive(req, res) {
-    let { id, url } = req.body;
+    let { id, url, backup } = req.body;
     lives
       .findByPk(id)
       .then(live => {
         live.url = url;
+        live.backup = backup;
         live
           .save()
           .then(data => {

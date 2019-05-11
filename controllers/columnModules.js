@@ -31,7 +31,8 @@ module.exports = {
       showTag,
       showDescription,
       descriptionType,
-      tagText
+      tagText,
+      font
     } = req.body;
     ColumnModules.findByPk(id)
       .then(data => {
@@ -40,6 +41,7 @@ module.exports = {
         data.swiperAutomatic = swiperAutomatic;
         data.showTag = showTag;
         data.tagText = tagText;
+        data.font = font;
         data.showDescription = showDescription;
         data.descriptionType = descriptionType;
         data
@@ -64,11 +66,12 @@ module.exports = {
       });
   },
   updateSimpleListSetting(req, res) {
-    let { id, showDescription, descriptionType } = req.body;
+    let { id, showDescription, descriptionType, font } = req.body;
     ColumnModules.findByPk(id)
       .then(data => {
         data.showDescription = showDescription;
         data.descriptionType = descriptionType;
+        data.font = font;
         data
           .save()
           .then(result => {
@@ -118,11 +121,12 @@ module.exports = {
       });
   },
   updateSimpleListWithImagesSetting(req, res) {
-    let { id, showDescription, descriptionType } = req.body;
+    let { id, showDescription, descriptionType, font } = req.body;
     ColumnModules.findByPk(id)
       .then(data => {
         data.showDescription = showDescription;
         data.descriptionType = descriptionType;
+        data.font = font;
         data
           .save()
           .then(result => {

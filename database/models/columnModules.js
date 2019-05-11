@@ -82,6 +82,10 @@ module.exports = sequelize.define(
     height: {
       type: Sequelize.INTEGER,
       defaultValue: 300
+    },
+    font: {
+      type: Sequelize.INTEGER,
+      defaultValue: 1
     }
   },
   {
