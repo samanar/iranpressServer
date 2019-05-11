@@ -94,11 +94,12 @@ module.exports = {
       });
   },
   updateHorizontalListSetting(req, res) {
-    let { id, showDescription, descriptionType } = req.body;
+    let { id, showDescription, descriptionType, font } = req.body;
     ColumnModules.findByPk(id)
       .then(data => {
         data.showDescription = showDescription;
-        data.descriptionType = descriptionType;
+        data.showDescription = showDescription;
+        data.font = font;
         data
           .save()
           .then(result => {
