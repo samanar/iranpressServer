@@ -86,6 +86,14 @@ module.exports = sequelize.define(
     font: {
       type: Sequelize.INTEGER,
       defaultValue: 1
+    },
+    backgroundColor: {
+      type: Sequelize.STRING,
+      defaultValue: '#ffffff'
+    },
+    color: {
+      type: Sequelize.STRING,
+      defaultValue: '#000000'
     }
   },
   {

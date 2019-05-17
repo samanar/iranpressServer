@@ -66,12 +66,14 @@ module.exports = {
       });
   },
   updateSimpleListSetting(req, res) {
-    let { id, showDescription, descriptionType, font } = req.body;
+    let { id, showDescription, descriptionType, font, color, backgroundColor } = req.body;
     ColumnModules.findByPk(id)
       .then(data => {
         data.showDescription = showDescription;
         data.descriptionType = descriptionType;
         data.font = font;
+        data.color = color;
+        data.backgroundColor = backgroundColor;
         data
           .save()
           .then(result => {
@@ -122,12 +124,14 @@ module.exports = {
       });
   },
   updateSimpleListWithImagesSetting(req, res) {
-    let { id, showDescription, descriptionType, font } = req.body;
+    let { id, showDescription, descriptionType, font, backgroundColor, color } = req.body;
     ColumnModules.findByPk(id)
       .then(data => {
         data.showDescription = showDescription;
         data.descriptionType = descriptionType;
         data.font = font;
+        data.backgroundColor = backgroundColor;
+        data.color = color;
         data
           .save()
           .then(result => {
