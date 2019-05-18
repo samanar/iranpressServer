@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 
 
 module.exports = sequelize.define('main_rows', {
-    id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
+    id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     order: {
         type: Sequelize.INTEGER, defaultValue: 0
     },
@@ -28,4 +28,20 @@ module.exports = sequelize.define('main_rows', {
     top: {
         type: Sequelize.INTEGER, defaultValue: 0,
     },
-}, {timestamps: false});
+    backgroundColor: {
+        type: Sequelize.STRING,
+        defaultValue: '#ffffff'
+    },
+    color: {
+        type: Sequelize.STRING,
+        defaultValue: '#ffffff'
+    },
+    headerBackgroundColor: {
+        type: Sequelize.STRING,
+        defaultValue: '#004890'
+    },
+    font: {
+        type: Sequelize.STRING,
+        defaultValue: 1
+    }
+}, { timestamps: false });

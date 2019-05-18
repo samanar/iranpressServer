@@ -107,6 +107,7 @@ router.post("/mainRows/updateFluid", mainRowsController.updateFluid);
 router.post("/mainRows/updateTitle", mainRowsController.updateTitle);
 router.post("/mainRows/updateColumnType", mainRowsController.updateColumnType);
 router.post("/mainRows/updateVertical", mainRowsController.updateVertical);
+router.post('/mainRows/updateRow', mainRowsController.updateRow);
 router.post("/mainRows/moveUp", mainRowsController.moveUp);
 router.post("/mainRows/moveDown", mainRowsController.moveDown);
 

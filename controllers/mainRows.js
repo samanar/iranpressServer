@@ -383,8 +383,35 @@ let self = (module.exports = {
         });
       });
   },
+  updateRow(req, res) {
+    let { id, title, fluid, backgroundColor, color, headerBackgroundColor } = req.body;
+    MainRows.findByPk(id)
+      .then(row => {
+        row.title = title;
+        row.fluid = fluid;
+        row.backgroundColor = backgroundColor;
+        row.color = color;
+        row.headerBackgroundColor = headerBackgroundColor;
+        row.save()
+          .then(data => {
+            res.send({
+              mainRow: data
+            });
+          }).catch(err => {
+            console.log(err);
+            res.status(500).send({
+              error: err
+            })
+          })
+      }).catch(err => {
+        console.log(err);
+        res.status(500).send({
+          error: err
+        });
+      })
+  },
   updateVertical(req, res) {
-    let { row_id, width, height, top, right, title } = req.body;
+    let { row_id, width, height, top, right, title, color, backgroundColor, headerBackgroundColor } = req.body;
     MainRows.findByPk(row_id)
       .then(row => {
         row.title = title;
@@ -392,6 +419,9 @@ let self = (module.exports = {
         row.height = height;
         row.top = top;
         row.right = right;
+        row.color = color;
+        row.backgroundColor = backgroundColor;
+        row.headerBackgroundColor = headerBackgroundColor;
         row.save().then(data => {
           res.send({
             row: data
@@ -406,7 +436,7 @@ let self = (module.exports = {
       });
   },
   async findMaxOrder(rows, upperBound) {
-    return new Promise(async function(resolve, reject) {
+    return new Promise(async function (resolve, reject) {
       let maxOrder = 0;
       let id = 0;
       await rows.forEach(item => {
@@ -419,7 +449,7 @@ let self = (module.exports = {
     });
   },
   async findMinOrder(rows, lowerBound) {
-    return new Promise(async function(resolve, reject) {
+    return new Promise(async function (resolve, reject) {
       let minOrder = 10000000;
       let id = 0;
       await rows.forEach(item => {

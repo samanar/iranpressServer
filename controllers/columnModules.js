@@ -32,7 +32,9 @@ module.exports = {
       showDescription,
       descriptionType,
       tagText,
-      font
+      font,
+      color,
+      backgroundColor
     } = req.body;
     ColumnModules.findByPk(id)
       .then(data => {
@@ -42,6 +44,8 @@ module.exports = {
         data.showTag = showTag;
         data.tagText = tagText;
         data.font = font;
+        data.color = color;
+        data.backgroundColor = backgroundColor;
         data.showDescription = showDescription;
         data.descriptionType = descriptionType;
         data
@@ -96,12 +100,14 @@ module.exports = {
       });
   },
   updateHorizontalListSetting(req, res) {
-    let { id, showDescription, descriptionType, font } = req.body;
+    let { id, showDescription, descriptionType, font, color, backgroundColor } = req.body;
     ColumnModules.findByPk(id)
       .then(data => {
         data.showDescription = showDescription;
-        data.showDescription = showDescription;
+        data.descriptionType = descriptionType;
         data.font = font;
+        data.color = color;
+        data.backgroundColor = backgroundColor;
         data
           .save()
           .then(result => {
