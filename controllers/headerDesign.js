@@ -11,13 +11,15 @@ let self = {
     async getHeaderWithPages(req, res) {
         let selectedPages = [];
         let pagesString = '';
-        let pages = [];
-        let [header, image, items] = await Promise.all([
+        let [header, image, items, categories, subCategories, pages] = await Promise.all([
             headerDesign.findOne({
                 where: { id: 1 },
             }),
             headerImages.findOne({ where: { selected: true } }),
-            headerItems.findAll()
+            headerItems.findAll(),
+            Category.findAll(),
+            subCategory.findAll(),
+            Page.findAll()
         ]);
 
         pagesString = header.pagesString;
@@ -26,7 +28,9 @@ let self = {
             pages: pages,
             header: header,
             image: image,
-            items: items
+            items: items,
+            categories: categories,
+            subCategories: subCategories
         })
 
         // if (pagesString && pagesString.length)
