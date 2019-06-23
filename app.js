@@ -7,12 +7,14 @@ let compression = require('compression');
 let passport = require('passport');
 let session = require('express-session');
 const multer = require('multer');
+let cors = require('cors');
 
 // routes
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let apiRouter = require('./routes/api');
 let factoryRouter = require('./routes/factory');
+let testRouter = require('./routes/test');
 let relations = require('./database/relations');
 
 let app = express();
@@ -22,17 +24,37 @@ app.use(compression());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(function (req, res, next) {
-    let allowedOrigins = ['http://localhost:4000', 'http://127.0.0.1:4000', 'http://127.0.0.1:3002', 'http://localhost:3002', 'http://iripna.com', 'http://iripna.com/'];
-    let origin = req.headers.origin;
-    if (allowedOrigins.indexOf(origin) > -1) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
+var whitelist = ['http://127.0.0.1:3002', 'http://localhost:3002'];
+var corsOptions = {
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS1",
+    preflightContinue: false,
+    credentials: true,
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
     }
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-app.use(logger('dev'));
+}
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)) // include before other routes
+
+
+// app.use(function (req, res, next) {
+//     let allowedOrigins = ['http://127.0.0.1:3002', 'http://localhost:3002', 'http://localhost:3002/',];
+//     let origin = req.headers.origin;
+//     if (allowedOrigins.indexOf(origin) > -1) {
+//         res.setHeader('Access-Control-Allow-Origin', origin);
+//     }
+//     res.header("Access-Control-Allow-Credentials", true);
+//     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+//     res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+//     // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
     extended: false
@@ -56,6 +78,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 app.use('/factory', factoryRouter);
+app.use('/test', testRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

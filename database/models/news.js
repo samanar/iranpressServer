@@ -13,20 +13,25 @@ const News = sequelize.define('news', {
     title2: {
         type: Sequelize.STRING,
     },
-    lead: {
+    lead:
+    {
         type: Sequelize.TEXT
     },
-    content: {
+    content:
+    {
         type: Sequelize.TEXT
     },
 
-    status: {
+    status:
+    {
         type: Sequelize.INTEGER,
     },
-    MessageSubject: {
+    MessageSubject:
+    {
         type: Sequelize.TEXT
     },
-    messageBody: {
+    messageBody:
+    {
         type: Sequelize.TEXT
     },
     point: {
@@ -40,6 +45,33 @@ const News = sequelize.define('news', {
         type: Sequelize.INTEGER,
         defaultValue: 0
     },
+    senderName: {
+        type: Sequelize.STRING,
+    },
+    senderId: {
+        type: Sequelize.STRING,
+    },
+    recipientName: {
+        type: Sequelize.STRING,
+    },
+    recipientId: {
+        type: Sequelize.STRING,
+    },
+    read: {
+        type: Sequelize.BOOLEAN,
+    },
+    delivered: {
+        type: Sequelize.BOOLEAN,
+    },
+    seen: {
+        type: Sequelize.BOOLEAN,
+    },
+    archived: {
+        type: Sequelize.BOOLEAN
+    },
+    attachement: {
+        type: Sequelize.BOOLEAN,
+    }
 });
 
 module.exports = News;

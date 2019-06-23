@@ -77,7 +77,7 @@ let self = (module.exports = {
       });
   },
   async createListItems2(numberOfRows, numberOfListsPerRow) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       let all = numberOfRows * numberOfListsPerRow;
       footerListModel
         .count()

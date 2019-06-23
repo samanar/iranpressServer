@@ -9,7 +9,7 @@ module.exports = sequelize.define('headerDesign', {
         type: Sequelize.INTEGER, defaultValue: 1
     },
     menuItems: {
-        type: Sequelize.INTEGER, defaultValue: 7
+        type: Sequelize.INTEGER, defaultValue: 4
     },
     backgroundColor: {
         type: Sequelize.STRING, defaultValue: '#203E90'
@@ -21,7 +21,7 @@ module.exports = sequelize.define('headerDesign', {
         type: Sequelize.STRING
     },
     height: {
-        type: Sequelize.INTEGER , defaultValue: 210
+        type: Sequelize.INTEGER, defaultValue: 210
     }
 
 }, { timestamps: false });

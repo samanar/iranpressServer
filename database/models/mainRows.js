@@ -40,6 +40,10 @@ module.exports = sequelize.define('main_rows', {
         type: Sequelize.STRING,
         defaultValue: '#004890'
     },
+    // borderColor: {
+    //     type: Sequelize.STRING,
+    //     defaultValue: '#ffffff'
+    // },
     font: {
         type: Sequelize.STRING,
         defaultValue: 1
