@@ -14,7 +14,6 @@ let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let apiRouter = require('./routes/api');
 let factoryRouter = require('./routes/factory');
-let testRouter = require('./routes/test');
 let relations = require('./database/relations');
 
 let app = express();
@@ -78,7 +77,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 app.use('/factory', factoryRouter);
-app.use('/test', testRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
