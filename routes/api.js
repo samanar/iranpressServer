@@ -138,6 +138,7 @@ router.post(
 
 //users
 router.post("/users/add", userController.addUser);
+router.get("/users/test", userController.test);
 router.post("/users/login", userController.loginUser);
 router.get("/users/logout", userController.logoutUser);
 router.post("/users/check_login", userController.checkLogin);
@@ -205,6 +206,7 @@ router.post("/roles/update", roleController.updateRole);
 
 //users
 router.get("/siteUsers", siteUserController.getUsers);
+// router.get("/siteUser/test", siteUserController.test);
 router.post("/siteUsers", siteUserController.addUser);
 router.post("/siteUsers/delete", siteUserController.deleteUser);
 router.post("/siteUsers/update", siteUserController.updateUser);

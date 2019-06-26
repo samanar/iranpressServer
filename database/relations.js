@@ -30,6 +30,7 @@ const Attachement = require("./models/Attachments");
 const breakingDesign = require("./models/breakingDesign");
 const Language = require('./models/Language');
 const Video = require('./models/Video');
+const MainPhoto = require('./models/mainPhoto');
 const sequelize = require("./config");
 
 Module.hasMany(ModuleNews);
@@ -72,6 +73,9 @@ moduleCategory.belongsTo(Category);
 Subcategory.hasMany(moduleSubCategories);
 moduleSubCategories.belongsTo(Subcategory);
 
+
+News.belongsToMany(MainPhoto, { through: 'News_MainPhoto' });
+MainPhoto.belongsToMany(News, { through: 'News_MainPhoto' });
 
 News.belongsToMany(Image, { through: 'News_Image' });
 Image.belongsToMany(News, { through: 'News_Image' });

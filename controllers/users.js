@@ -2,9 +2,18 @@ let Ugc = require('../database/models/ugc');
 let bcrypt = require('bcryptjs');
 
 module.exports = {
+    test(req, res) {
+        bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash("admin", salt, function (err, hash) {
+                res.send({
+                    password: hash
+                })
+            });
+        });
+    },
     async addUser(req, res) {
-        let {name, email, password} = req.body;
-        let count = await Ugc.count({where: {email: email}});
+        let { name, email, password } = req.body;
+        let count = await Ugc.count({ where: { email: email } });
         if (count !== 0) {
             res.send({
                 error: true,
@@ -40,7 +49,7 @@ module.exports = {
         }
     },
     loginUser(req, res) {
-        let {email, password} = req.body;
+        let { email, password } = req.body;
         Ugc.findOne({
             where: {
                 email: email

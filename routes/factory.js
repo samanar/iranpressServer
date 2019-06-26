@@ -22,7 +22,7 @@ const Share = require("../database/models/share");
 const Weather = require("../database/models/weather");
 const breakingDesign = require("../database/models/breakingDesign");
 
-router.get("/", async function(req, res) {
+router.get("/", async function (req, res) {
   for (let i = 0; i < 10; i++) {
     let title = "Title " + (i + 1);
     let description = "#" + (i + 1);
@@ -51,32 +51,6 @@ router.get("/", async function(req, res) {
     name: "ALalam"
   });
 
-  await Category.create({
-    englishTitle: "category test 1",
-    title: "تست 1"
-  });
-  await Category.create({
-    englishTitle: "category test 2",
-    title: "تست 2"
-  });
-  await Category.create({
-    englishTitle: "category test 3",
-    title: "تست 3"
-  });
-
-  await subCategory.create({
-    englishTitle: "subcategory test 1",
-    title: "ساب 1"
-  });
-  await subCategory.create({
-    englishTitle: "subcategory test 2",
-    title: "ساب 2"
-  });
-  await subCategory.create({
-    englishTitle: "subcategory test 3",
-    title: "ساب 3"
-  });
-
   // header and footer design initializing
   await headerDesign.create();
   await footerDesign.create();
@@ -96,13 +70,13 @@ router.get("/", async function(req, res) {
   await siteUser.create({
     username: "admin",
     name: "Saman Ahmadian Rad",
-    password: "$2a$10$ewVGTArHJPEQ.kfhp1vhL.6sebExQTha3g9i6gCh7S.ip611nP/j6",
+    password: "$2a$10$aoalzHlmc2qHefXCq/2YjOhdaeANwsxcLicotJ2pkXNbLTUeS/Axi",
     siteRoleId: 1
   });
   await siteUser.create({
     username: "test",
     name: "test",
-    password: "$2a$10$ewVGTArHJPEQ.kfhp1vhL.6sebExQTha3g9i6gCh7S.ip611nP/j6",
+    password: "$2a$10$aoalzHlmc2qHefXCq/2YjOhdaeANwsxcLicotJ2pkXNbLTUeS/Axi",
     siteRoleId: 1
   });
 
@@ -232,7 +206,7 @@ router.get("/", async function(req, res) {
 });
 
 /* GET home page. */
-router.get("/news", async function(req, res, next) {
+router.get("/news", async function (req, res, next) {
   for (let i = 0; i < 10; i++) {
     let title = "Title " + (i + 1);
     let description = "#" + (i + 1);
@@ -267,7 +241,7 @@ router.get("/news", async function(req, res, next) {
   res.send("done");
 });
 
-router.get("/modules", function(req, res, next) {
+router.get("/modules", function (req, res, next) {
   Module.create({
     name: "comments",
     type: true
@@ -289,7 +263,7 @@ router.get("/modules", function(req, res, next) {
   res.send("done");
 });
 
-router.get("/moduleNews", function(req, res, next) {
+router.get("/moduleNews", function (req, res, next) {
   for (let i = 0; i < 30; i++) {
     ModuleNews.create({
       moduleId: 1,
@@ -300,7 +274,7 @@ router.get("/moduleNews", function(req, res, next) {
   res.send("done");
 });
 
-router.get("/design", async function(req, res, next) {
+router.get("/design", async function (req, res, next) {
   await mainRows.create({
     pageId: 1,
     title: "",
@@ -489,7 +463,7 @@ router.get("/design", async function(req, res, next) {
   res.send("done");
 });
 
-router.get("/share", function(req, res) {
+router.get("/share", function (req, res) {
   shares = [
     {
       name: "email",
