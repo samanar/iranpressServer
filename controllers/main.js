@@ -5,6 +5,7 @@ const ModuleNews = require('../database/models/module_news');
 const News = require('../database/models/news');
 const columnModules = require('../database/models/columnModules');
 const Image = require('../database/models/Images');
+const mainPhoto = require('../database/models/mainPhoto');
 const Category = require('../database/models/category');
 const SubCategory = require('../database/models/subCategory');
 const moduleCategory = require('../database/models/moduleCategories');
@@ -38,7 +39,7 @@ let self = module.exports = {
                             include: [{
                                 model: News,
                                 include: [{
-                                    model: Image,
+                                    model: mainPhoto,
                                     required: false
                                 }, {
                                     model: Category,
@@ -82,11 +83,11 @@ let self = module.exports = {
                     newsAutomatic: 1
                 },
                 include: [{
-                        model: moduleCategory
-                    },
-                    {
-                        model: moduleSubCategory
-                    }
+                    model: moduleCategory
+                },
+                {
+                    model: moduleSubCategory
+                }
                 ]
             }),
             News.findAll({
@@ -94,11 +95,11 @@ let self = module.exports = {
                     status: 2
                 },
                 include: [{
-                        model: Category
-                    },
-                    {
-                        model: SubCategory
-                    }
+                    model: Category
+                },
+                {
+                    model: SubCategory
+                }
                 ]
             })
         ]);
