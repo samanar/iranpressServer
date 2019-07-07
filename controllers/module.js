@@ -103,5 +103,19 @@ module.exports = {
           error: err
         });
       });
+  },
+  deleteModule(req, res) {
+    let { moduleId } = req.body;
+    Module.destroy({
+      where: { id: moduleId }
+    }).then(data => {
+      res.send({
+        msg: 'done'
+      });
+    }).catch(err => {
+      res.status(500).send({
+        error: err
+      });
+    })
   }
 };

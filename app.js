@@ -53,7 +53,7 @@ app.options('*', cors(corsOptions)) // include before other routes
 //     // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 //     next();
 // });
-// app.use(logger('dev'));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
     extended: false

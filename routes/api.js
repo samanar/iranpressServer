@@ -63,6 +63,7 @@ const breakingDesignController = require("../controllers/breakingDesign");
 
 //root
 router.get("/", mainController.getMain);
+// router.get("/main", mainController.getTagsPageData);
 
 //news
 router.get("/news", newsController.getNews);
@@ -73,6 +74,7 @@ router.get("/modules", moduleController.getModules);
 router.get("/module", moduleController.getModule);
 router.post("/module/update", moduleController.updateModule);
 router.post("/modules/add", moduleController.addModule);
+router.post("/modules/delete", moduleController.deleteModule);
 
 //module news
 router.get("/moduleNews", moduleNewsController.getModuleNews);

@@ -17,6 +17,10 @@ const moduleNewsController = require('./moduleNews');
 
 
 let self = module.exports = {
+
+
+
+
     async getMain(req, res) {
         let pageId = req.query.page ? req.query.page : 1;
         let mainRows = await MainRows.findAll({
@@ -67,9 +71,111 @@ let self = module.exports = {
                 }, 'id', 'asc'],
             ],
         });
-        res.send({
-            mainRows: mainRows
-        })
+
+        if (pageId == '3') {
+            let tagId = req.query.tagId;
+            self.getTagsData(tagId).then(tagData => {
+                for (let i = 0; i < mainRows.length; i++) {
+                    for (let j = 0; j < mainRows[i].row_columns.length; j++) {
+                        for (let k = 0; k < mainRows[i].row_columns[j].column_modules.length; k++) {
+                            if (mainRows[i].row_columns[j].column_modules[k].module.id === 1) {
+                                for (let l = 0; l < tagData.length; l++) {
+                                    mainRows[i].row_columns[j].column_modules[k].module.module_news.push(tagData[l]);
+                                }
+                            }
+                        }
+                    }
+                    if (i === mainRows.length - 1) {
+                        res.send({
+                            mainRows: mainRows
+                        })
+                    }
+                }
+
+            }).catch(err => {
+                res.send({
+                    mainRows: mainRows
+                })
+            })
+
+        } else if (pageId == '4') {
+            let subCategoryId = req.query.subCategoryId;
+            self.getSubCategoriesData(subCategoryId).then(subCategoryData => {
+                console.log(subCategoryData.length);
+                for (let i = 0; i < mainRows.length; i++) {
+                    for (let j = 0; j < mainRows[i].row_columns.length; j++) {
+                        for (let k = 0; k < mainRows[i].row_columns[j].column_modules.length; k++) {
+                            if (mainRows[i].row_columns[j].column_modules[k].module.id === 2) {
+                                for (let l = 0; l < subCategoryData.length; l++) {
+                                    mainRows[i].row_columns[j].column_modules[k].module.module_news.push(subCategoryData[l]);
+                                }
+                            }
+                        }
+                    }
+                    if (i === mainRows.length - 1) {
+                        res.send({
+                            mainRows: mainRows
+                        })
+                    }
+                }
+
+            }).catch(err => {
+                res.send({
+                    mainRows: mainRows
+                })
+            })
+        }
+        else {
+            res.send({
+                mainRows: mainRows
+            })
+        }
+    },
+
+    async getTagsData(tagId) {
+        return new Promise(function (resolve, reject) {
+            News.findAll({
+                order: [
+                    ['id', 'DESC'],
+                    ['createdAt', 'DESC'],
+                ],
+                include: [
+                    { model: Tag, where: { id: tagId }, required: true },
+                    { model: mainPhoto, required: false },
+                    { model: Category, required: false },
+                    { model: SubCategory, required: false }
+                ],
+                limit: 20
+            }).then(news => {
+                resolve(news);
+            }).catch(err => {
+                console.log(err);
+                reject(err);
+            })
+        });
+    },
+
+    async getSubCategoriesData(subCategoryId) {
+        return new Promise(function (resolve, reject) {
+            News.findAll({
+                order: [
+                    ['id', 'DESC'],
+                    ['createdAt', 'DESC'],
+                ],
+                include: [
+                    { model: SubCategory, where: { id: subCategoryId }, required: true },
+                    { model: Tag, required: false },
+                    { model: mainPhoto, required: false },
+                    { model: Category, required: false }
+                ],
+                limit: 20
+            }).then(news => {
+                resolve(news);
+            }).catch(err => {
+                console.log(err);
+                reject(err);
+            })
+        });
     },
 
     async automaticAssignment(req, res) {

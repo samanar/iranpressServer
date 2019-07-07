@@ -88,11 +88,37 @@ router.get("/", async function (req, res) {
 
   await Page.create({
     name: "main",
-    type: 0
+    type: 0,
+    redirectable: true
   });
+
   await Page.create({
     name: "details",
-    type: 1
+    type: 1,
+    redirectable: false
+  });
+
+  await Page.create({
+    name: "Tags",
+    type: 0,
+    redirectable: false
+  });
+
+  await Page.create({
+    name: "Sub Categories",
+    type: 0,
+    redirectable: false
+  });
+
+
+  await Module.create({
+    name: "Tags Data",
+    type: 4
+  });
+
+  await Module.create({
+    name: "Sub Categories Data",
+    type: 5
   });
 
   await Module.create({
@@ -107,6 +133,8 @@ router.get("/", async function (req, res) {
     name: "Related Articles",
     type: 3
   });
+
+
 
   let top = await Module.create({
     name: "Top 10 News"
@@ -275,6 +303,7 @@ router.get("/moduleNews", function (req, res, next) {
 });
 
 router.get("/design", async function (req, res, next) {
+
   await mainRows.create({
     pageId: 1,
     title: "",
@@ -349,115 +378,115 @@ router.get("/design", async function (req, res, next) {
     module_type: 4,
     show_title: 0,
     rowColumnId: 1,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 3,
     show_title: 0,
     rowColumnId: 2,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 3,
     show_title: 0,
     rowColumnId: 2,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 3,
     show_title: 0,
     rowColumnId: 2,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 3,
     show_title: 0,
     rowColumnId: 2,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 3,
     show_title: 0,
     rowColumnId: 2,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 3,
     show_title: 0,
     rowColumnId: 2,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 0,
     show_title: 1,
     rowColumnId: 4,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 0,
     show_title: 1,
     rowColumnId: 4,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 0,
     show_title: 1,
     rowColumnId: 4,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 0,
     show_title: 1,
     rowColumnId: 4,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 4,
     show_title: 0,
     rowColumnId: 6,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 4,
     show_title: 0,
     rowColumnId: 6,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 4,
     show_title: 0,
     rowColumnId: 6,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 4,
     show_title: 0,
     rowColumnId: 6,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 4,
     show_title: 0,
     rowColumnId: 6,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 4,
     show_title: 0,
     rowColumnId: 6,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 4,
     show_title: 0,
     rowColumnId: 6,
-    moduleId: 4
+    moduleId: 6
   });
   await columnModules.create({
     module_type: 1,
     show_title: 0,
     rowColumnId: 5,
-    moduleId: 5
+    moduleId: 7
   });
 
   res.send("done");
