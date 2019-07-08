@@ -24,7 +24,7 @@ module.exports = {
                 Redirect.findAll(),
                 Category.findAll(),
                 subCategory.findAll(),
-                Page.findAll()
+                Page.findAll({ where: { redirectable: true } })
             ]);
             res.send({
                 redirects: redirects,
@@ -58,10 +58,10 @@ module.exports = {
         })
     },
     deleteRedirect(req, res) {
-        let id = req.body.id;
+        let redirectId = req.body.redirectId;
         Redirect.destroy({
             where: {
-                id: id
+                id: redirectId
             }
         }).then(data => {
             res.send({

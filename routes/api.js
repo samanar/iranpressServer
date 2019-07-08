@@ -237,6 +237,7 @@ router.post(
 );
 router.post("/redirects/update", redirectController.updateRedirect);
 router.post("/redirects/main", redirectController.getRedirect);
+router.post("/redirects/delete", redirectController.deleteRedirect);
 
 // breaking
 router.get("/breaking", breakingDesignController.getSetting);
