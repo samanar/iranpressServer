@@ -8,6 +8,11 @@ let passport = require('passport');
 let session = require('express-session');
 const multer = require('multer');
 let cors = require('cors');
+const cron = require('node-cron');
+
+let mainController = require('./controllers/main');
+
+
 
 // routes
 let indexRouter = require('./routes/index');
@@ -22,6 +27,12 @@ app.use(compression());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+var task = cron.schedule('*/5 * * * *', () => {
+    mainController.automaticAssignment();
+});
+
+task.start();
 
 var whitelist = ['http://127.0.0.1:3002', 'http://localhost:3002'];
 var corsOptions = {
